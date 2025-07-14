@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mesa de Ayuda - TekProvider</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-building logo"></i>
+                <h3>TekProvider</h3>
+            </div>
+            <ul class="sidebar-nav">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="facturas.html" class="nav-link">
+                        <i class="fas fa-file-invoice"></i>
+                        <span>Mis Facturas</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="solicitudes.html" class="nav-link">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>Solicitudes de Factoraje</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="estatus.html" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Estatus</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="reportes.html" class="nav-link">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Reportes</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="tickets.html" class="nav-link active">
+                        <i class="fas fa-headset"></i>
+                        <span>Mesa de Ayuda</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="perfil.html" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <span>Mi Perfil</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div id="content" class="content">
+            <!-- Top Navigation -->
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarToggle" class="btn btn-outline-primary">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="navbar-nav ms-auto">
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle"></i>
+                                Admin
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="perfil.html">Mi Perfil</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" onclick="logout()">Cerrar Sesión</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content Area -->
+            <div class="main-content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-header">
+                                <h1>Mesa de Ayuda</h1>
+                                <p>Soporte técnico y atención al cliente</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- New Ticket Form -->
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-ticket-alt me-2"></i>Crear Nuevo Ticket</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="ticketForm">
+                                        <div class="mb-3">
+                                            <label for="asunto" class="form-label">Asunto</label>
+                                            <input type="text" class="form-control" id="asunto" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="descripcion" class="form-label">Descripción</label>
+                                            <textarea class="form-control" id="descripcion" rows="4" required></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="prioridad" class="form-label">Prioridad</label>
+                                            <select class="form-select" id="prioridad" required>
+                                                <option value="">Seleccionar...</option>
+                                                <option value="baja">Baja</option>
+                                                <option value="media">Media</option>
+                                                <option value="alta">Alta</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="adjunto" class="form-label">Adjunto (opcional)</label>
+                                            <input type="file" class="form-control" id="adjunto" accept=".pdf,.doc,.docx,.jpg,.png">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-paper-plane me-2"></i>Enviar Ticket
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tickets List -->
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-list me-2"></i>Mis Tickets</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Asunto</th>
+                                                    <th>Estado</th>
+                                                    <th>Prioridad</th>
+                                                    <th>Ejecutivo</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="ticketsTableBody">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-success">Ticket Creado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle me-2"></i>
+                        Tu ticket ha sido creado exitosamente.
+                    </div>
+                    <p>ID del ticket: <strong id="ticketId"></strong></p>
+                    <p>Nuestro equipo se pondrá en contacto contigo pronto.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Dummy data for tickets
+        const defaultTickets = [
+            {
+                id: 'TKT-001',
+                fecha: '2024-01-15',
+                asunto: 'Problema con facturas',
+                estatus: 'Abierto',
+                prioridad: 'alta',
+                ejecutivo: 'María González',
+                foto: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=2'
+            },
+            {
+                id: 'TKT-002',
+                fecha: '2024-01-18',
+                asunto: 'Consulta sobre comisiones',
+                estatus: 'En Proceso',
+                prioridad: 'media',
+                ejecutivo: 'Carlos Ramírez',
+                foto: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=2'
+            },
+            {
+                id: 'TKT-003',
+                fecha: '2024-01-20',
+                asunto: 'Error en reporte',
+                estatus: 'Cerrado',
+                prioridad: 'baja',
+                ejecutivo: 'Ana Martínez',
+                foto: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=2'
+            }
+        ];
+
+        function loadTickets() {
+            const tickets = JSON.parse(localStorage.getItem('supportTickets') || '[]');
+            const allTickets = [...defaultTickets, ...tickets];
+            
+            const tbody = document.getElementById('ticketsTableBody');
+            tbody.innerHTML = '';
+            
+            allTickets.forEach(ticket => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${ticket.id}</td>
+                    <td>${ticket.asunto}</td>
+                    <td><span class="badge ${getStatusBadge(ticket.estatus)}">${ticket.estatus}</span></td>
+                    <td><span class="priority-badge priority-${ticket.prioridad}">${ticket.prioridad.toUpperCase()}</span></td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img src="${ticket.foto}" alt="${ticket.ejecutivo}" class="executive-photo me-2">
+                            <small>${ticket.ejecutivo}</small>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function getStatusBadge(status) {
+            switch(status) {
+                case 'Abierto': return 'bg-primary';
+                case 'En Proceso': return 'bg-warning';
+                case 'Cerrado': return 'bg-success';
+                default: return 'bg-secondary';
+            }
+        }
+
+        function getRandomExecutive() {
+            const executives = [
+                {name: 'María González', photo: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=2'},
+                {name: 'Carlos Ramírez', photo: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=2'},
+                {name: 'Ana Martínez', photo: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=2'},
+                {name: 'Luis Hernández', photo: 'https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=2'},
+                {name: 'Patricia Silva', photo: 'https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=2'}
+            ];
+            return executives[Math.floor(Math.random() * executives.length)];
+        }
+
+        // Handle form submission
+        document.getElementById('ticketForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!validateForm('ticketForm')) {
+                return;
+            }
+            
+            const executive = getRandomExecutive();
+            const ticketId = 'TKT-' + String(Date.now()).slice(-6);
+            
+            const newTicket = {
+                id: ticketId,
+                fecha: new Date().toISOString().split('T')[0],
+                asunto: document.getElementById('asunto').value,
+                descripcion: document.getElementById('descripcion').value,
+                prioridad: document.getElementById('prioridad').value,
+                estatus: 'Abierto',
+                ejecutivo: executive.name,
+                foto: executive.photo
+            };
+            
+            // Save to localStorage
+            const tickets = JSON.parse(localStorage.getItem('supportTickets') || '[]');
+            tickets.push(newTicket);
+            localStorage.setItem('supportTickets', JSON.stringify(tickets));
+            
+            // Show success modal
+            document.getElementById('ticketId').textContent = ticketId;
+            const modal = new bootstrap.Modal(document.getElementById('successModal'));
+            modal.show();
+            
+            // Reset form
+            document.getElementById('ticketForm').reset();
+            
+            // Reload tickets
+            loadTickets();
+        });
+
+        // Load tickets on page load
+        document.addEventListener('DOMContentLoaded', loadTickets);
+    </script>
+</body>
+</html>

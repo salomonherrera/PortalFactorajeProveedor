@@ -1,0 +1,32 @@
+{
+  "name": "tekprovider-microfrontends",
+  "version": "1.0.0",
+  "description": "TekProvider Microfrontends Architecture",
+  "private": true,
+  "workspaces": [
+    "shell-app",
+    "auth-mf",
+    "dashboard-mf",
+    "invoices-mf",
+    "factoring-mf",
+    "support-mf",
+    "shared-components"
+  ],
+  "scripts": {
+    "install:all": "npm install && npm run install:workspaces",
+    "install:workspaces": "npm install --workspaces",
+    "dev": "concurrently \"npm run dev:shell\" \"npm run dev:auth\" \"npm run dev:dashboard\" \"npm run dev:invoices\" \"npm run dev:factoring\" \"npm run dev:support\"",
+    "dev:shell": "npm run dev --workspace=shell-app",
+    "dev:auth": "npm run dev --workspace=auth-mf",
+    "dev:dashboard": "npm run dev --workspace=dashboard-mf",
+    "dev:invoices": "npm run dev --workspace=invoices-mf",
+    "dev:factoring": "npm run dev --workspace=factoring-mf",
+    "dev:support": "npm run dev --workspace=support-mf",
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitudes de Factoraje - TekProvider</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-building logo"></i>
+                <h3>TekProvider</h3>
+            </div>
+            <ul class="sidebar-nav">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="facturas.html" class="nav-link">
+                        <i class="fas fa-file-invoice"></i>
+                        <span>Mis Facturas</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="solicitudes.html" class="nav-link active">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>Solicitudes de Factoraje</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="estatus.html" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Estatus</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="reportes.html" class="nav-link">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Reportes</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="tickets.html" class="nav-link">
+                        <i class="fas fa-headset"></i>
+                        <span>Mesa de Ayuda</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="perfil.html" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <span>Mi Perfil</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div id="content" class="content">
+            <!-- Top Navigation -->
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarToggle" class="btn btn-outline-primary">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="navbar-nav ms-auto">
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle"></i>
+                                Admin
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="perfil.html">Mi Perfil</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" onclick="logout()">Cerrar Sesión</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content Area -->
+            <div class="main-content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-header">
+                                <h1>Solicitudes de Factoraje</h1>
+                                <p>Facturas seleccionadas para envío a factoraje</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <button class="btn btn-primary" onclick="submitRequest()">
+                                <i class="fas fa-paper-plane"></i> Enviar Solicitud
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="solicitudesTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Folio</th>
+                                            <th>Cliente</th>
+                                            <th>Monto</th>
+                                            <th>Fecha Emisión</th>
+                                            <th>Días de Pago</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="solicitudesTableBody">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="emptyState" class="text-center py-5" style="display: none;">
+                                <i class="fas fa-file-invoice fa-3x text-muted mb-3"></i>
+                                <h5 class="text-muted">No hay facturas seleccionadas</h5>
+                                <p class="text-muted">Selecciona facturas desde la sección "Mis Facturas" para enviarlas a factoraje</p>
+                                <a href="facturas.html" class="btn btn-primary">
+                                    <i class="fas fa-file-invoice"></i> Ir a Mis Facturas
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmar Envío</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Deseas enviar <span id="requestCount"></span> facturas a factoraje?</p>
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        Una vez enviadas, las facturas serán procesadas por nuestro equipo de factoraje.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="confirmRequest()">Enviar Solicitud</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-success">Solicitud Enviada</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle me-2"></i>
+                        Tu solicitud de factoraje ha sido enviada exitosamente.
+                    </div>
+                    <p>Número de solicitud: <strong id="requestNumber"></strong></p>
+                    <p>Puedes revisar el estatus en la sección "Estatus"</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="goToStatus()">Ver Estatus</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Dummy data for facturas
+        const allFacturas = [
+            {id: 1, folio: 'F001', cliente: 'Nestlé México', monto: 125000, fechaEmision: '2024-01-15', fechaVencimiento: '2024-02-15', estatus: 'Emitida'},
+            {id: 2, folio: 'F002', cliente: 'Coca Cola', monto: 89000, fechaEmision: '2024-01-16', fechaVencimiento: '2024-02-16', estatus: 'Pagada'},
+            {id: 3, folio: 'F003', cliente: 'Walmart', monto: 245000, fechaEmision: '2024-01-17', fechaVencimiento: '2024-02-17', estatus: 'Emitida'},
+            {id: 4, folio: 'F004', cliente: 'Soriana', monto: 67000, fechaEmision: '2024-01-18', fechaVencimiento: '2024-02-18', estatus: 'Vencida'},
+            {id: 5, folio: 'F005', cliente: 'Liverpool', monto: 156000, fechaEmision: '2024-01-19', fechaVencimiento: '2024-02-19', estatus: 'Emitida'},
+            {id: 6, folio: 'F006', cliente: 'Palacio de Hierro', monto: 78000, fechaEmision: '2024-01-20', fechaVencimiento: '2024-02-20', estatus: 'Pagada'},
+            {id: 7, folio: 'F007', cliente: 'Chedraui', monto: 123000, fechaEmision: '2024-01-21', fechaVencimiento: '2024-02-21', estatus: 'Emitida'},
+            {id: 8, folio: 'F008', cliente: 'Oxxo', monto: 45000, fechaEmision: '2024-01-22', fechaVencimiento: '2024-02-22', estatus: 'Emitida'},
+            {id: 9, folio: 'F009', cliente: 'Seven Eleven', monto: 234000, fechaEmision: '2024-01-23', fechaVencimiento: '2024-02-23', estatus: 'Pagada'},
+            {id: 10, folio: 'F010', cliente: 'Farmacias Guadalajara', monto: 89000, fechaEmision: '2024-01-24', fechaVencimiento: '2024-02-24', estatus: 'Emitida'}
+        ];
+
+        function calculateDaysToPayment(fechaVencimiento) {
+            const today = new Date();
+            const dueDate = new Date(fechaVencimiento);
+            const diffTime = dueDate - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            return diffDays;
+        }
+
+        function loadSelectedInvoices() {
+            const selectedIds = JSON.parse(localStorage.getItem('selectedInvoices') || '[]');
+            const tbody = document.getElementById('solicitudesTableBody');
+            const emptyState = document.getElementById('emptyState');
+            
+            tbody.innerHTML = '';
+            
+            if (selectedIds.length === 0) {
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            
+            selectedIds.forEach(id => {
+                const factura = allFacturas.find(f => f.id == id);
+                if (factura) {
+                    const row = document.createElement('tr');
+                    const diasPago = calculateDaysToPayment(factura.fechaVencimiento);
+                    
+                    row.innerHTML = `
+                        <td>${factura.folio}</td>
+                        <td>${factura.cliente}</td>
+                        <td>$${factura.monto.toLocaleString()}</td>
+                        <td>${factura.fechaEmision}</td>
+                        <td>
+                            <span class="badge ${diasPago < 0 ? 'bg-danger' : diasPago < 7 ? 'bg-warning' : 'bg-success'}">
+                                ${diasPago} días
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-danger" onclick="removeFromRequest(${factura.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                }
+            });
+        }
+
+        function removeFromRequest(id) {
+            const selectedIds = JSON.parse(localStorage.getItem('selectedInvoices') || '[]');
+            const updatedIds = selectedIds.filter(selectedId => selectedId != id);
+            localStorage.setItem('selectedInvoices', JSON.stringify(updatedIds));
+            loadSelectedInvoices();
+        }
+
+        function submitRequest() {
+            const selectedIds = JSON.parse(localStorage.getItem('selectedInvoices') || '[]');
+            
+            if (selectedIds.length === 0) {
+                showAlert('No hay facturas seleccionadas para enviar a factoraje', 'warning');
+                return;
+            }
+            
+            document.getElementById('requestCount').textContent = selectedIds.length;
+            const modal = new bootstrap.Modal(document.getElementById('confirmModal'));
+            modal.show();
+        }
+
+        function confirmRequest() {
+            const selectedIds = JSON.parse(localStorage.getItem('selectedInvoices') || '[]');
+            
+            // Generate random request number
+            const requestNumber = 'REQ-' + Math.floor(Math.random() * 100000);
+            
+            // Save to status (simulate API call)
+            const existingRequests = JSON.parse(localStorage.getItem('factoringRequests') || '[]');
+            const newRequest = {
+                id: requestNumber,
+                fecha: new Date().toISOString().split('T')[0],
+                facturas: selectedIds.length,
+                monto: selectedIds.reduce((total, id) => {
+                    const factura = allFacturas.find(f => f.id == id);
+                    return total + (factura ? factura.monto : 0);
+                }, 0),
+                estatus: 'En Proceso',
+                fechaPago: null
+            };
+            
+            existingRequests.push(newRequest);
+            localStorage.setItem('factoringRequests', JSON.stringify(existingRequests));
+            
+            // Clear selected invoices
+            localStorage.removeItem('selectedInvoices');
+            
+            // Hide confirmation modal
+            const confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
+            confirmModal.hide();
+            
+            // Show success modal
+            document.getElementById('requestNumber').textContent = requestNumber;
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+            
+            // Reload page
+            setTimeout(() => {
+                loadSelectedInvoices();
+            }, 1000);
+        }
+
+        function goToStatus() {
+            window.location.href = 'estatus.html';
+        }
+
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', loadSelectedInvoices);
+    </script>
+</body>
+</html>

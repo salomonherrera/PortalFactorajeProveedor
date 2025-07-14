@@ -1,0 +1,109 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15
+    container_name: tekprovider-postgres
+    environment:
+      POSTGRES_DB: tekprovider_db
+      POSTGRES_USER: tekprovider
+      POSTGRES_PASSWORD: admin123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - tekprovider-network
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: tekprovider-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - tekprovider-network
+
+  # Authentication API
+  auth-api:
+    build:
+      context: .
+      dockerfile: TekProvider.Auth/Dockerfile
+    container_name: tekprovider-auth
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=tekprovider_db;Username=tekprovider;Password=admin123
+    ports:
+      - "5001:80"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - tekprovider-network
+
+  # Complete Microservices Stack (Uncomment when ready for Docker deployment)
+  # auth-api:
+  #   build:
+  #     context: .
+  #     dockerfile: TekProvider.Auth/Dockerfile
+  #   ports:
+  #     - "5001:80"
+  #   depends_on:
+  #     - postgres
+  #   networks:
+  #     - tekprovider-network
+  
+  # invoices-api:
+  #   build:
+  #     context: .
+  #     dockerfile: TekProvider.Invoices/Dockerfile
+  #   ports:
+  #     - "5002:80"
+  #   depends_on:
+  #     - postgres
+  #   networks:
+  #     - tekprovider-network
+  
+  # factoring-api:
+  #   build:
+  #     context: .
+  #     dockerfile: TekProvider.Factoring/Dockerfile
+  #   ports:
+  #     - "5003:80"
+  #   depends_on:
+  #     - postgres
+  #   networks:
+  #     - tekprovider-network
+  
+  # support-api:
+  #   build:
+  #     context: .
+  #     dockerfile: TekProvider.Support/Dockerfile
+  #   ports:
+  #     - "5004:80"
+  #   depends_on:
+  #     - postgres
+  #   networks:
+  #     - tekprovider-network
+  
+  # gateway:
+  #   build:
+  #     context: .
+  #     dockerfile: TekProvider.Gateway/Dockerfile
+  #   ports:
+  #     - "5000:80"
+  #   depends_on:
+  #     - auth-api
+  #     - invoices-api
+  #     - factoring-api
+  #     - support-api
+  #   networks:
+  #     - tekprovider-network
+
+volumes:
+  postgres_data:
+
+networks:
+  tekprovider-network:
+    driver: bridge

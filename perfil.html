@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - TekProvider</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-building logo"></i>
+                <h3>TekProvider</h3>
+            </div>
+            <ul class="sidebar-nav">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="facturas.html" class="nav-link">
+                        <i class="fas fa-file-invoice"></i>
+                        <span>Mis Facturas</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="solicitudes.html" class="nav-link">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>Solicitudes de Factoraje</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="estatus.html" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Estatus</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="reportes.html" class="nav-link">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Reportes</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="tickets.html" class="nav-link">
+                        <i class="fas fa-headset"></i>
+                        <span>Mesa de Ayuda</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="perfil.html" class="nav-link active">
+                        <i class="fas fa-user"></i>
+                        <span>Mi Perfil</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div id="content" class="content">
+            <!-- Top Navigation -->
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarToggle" class="btn btn-outline-primary">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="navbar-nav ms-auto">
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle"></i>
+                                Admin
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="perfil.html">Mi Perfil</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" onclick="logout()">Cerrar Sesión</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content Area -->
+            <div class="main-content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-header">
+                                <h1>Mi Perfil</h1>
+                                <p>Información de tu cuenta y empresa</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <img src="https://images.pexels.com/photos/3778966/pexels-photo-3778966.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2" 
+                                         alt="Avatar" class="profile-avatar">
+                                    <h4>Proveedor Demo</h4>
+                                    <p class="text-muted">Proveedor Autorizado</p>
+                                    <div class="d-flex justify-content-center">
+                                        <span class="badge bg-success">Activo</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-building me-2"></i>Información de la Empresa</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="profile-info">
+                                        <div class="info-row">
+                                            <span class="info-label">Razón Social:</span>
+                                            <span class="info-value">Servicios Empresariales Demo S.A. de C.V.</span>
+                                        </div>
+                                        <div class="info-row">
+                                            <span class="info-label">RFC:</span>
+                                            <span class="info-value">SED123456789</span>
+                                        </div>
+                                        <div class="info-row">
+                                            <span class="info-label">Clave de Proveedor:</span>
+                                            <span class="info-value">PROV-001234</span>
+                                        </div>
+                                        <div class="info-row">
+                                            <span class="info-label">Correo Electrónico:</span>
+                                            <span class="info-value">admin@serviciosempresariales.com</span>
+                                        </div>
+                                        <div class="info-row">
+                                            <span class="info-label">Teléfono:</span>
+                                            <span class="info-value">+52 55 1234 5678</span>
+                                        </div>
+                                        <div class="info-row">
+                                            <span class="info-label">Dirección:</span>
+                                            <span class="info-value">Av. Insurgentes Sur 123, Col. Roma Norte, CDMX</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card mt-4">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-university me-2"></i>Información Bancaria</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="profile-info">
+                                        <div class="info-row">
+                                            <span class="info-label">Banco:</span>
+                                            <span class="info-value">BBVA México</span>
+                                        </div>
+                                        <div class="info-row">
+                                            <span class="info-label">Cuenta CLABE:</span>
+                                            <span class="info-value">012345678901234567</span>
+                                        </div>
+                                        <div class="info-row">
+                                            <span class="info-label">Número de Cuenta:</span>
+                                            <span class="info-value">0123456789</span>
+                                        </div>
+                                        <div class="info-row">
+                                            <span class="info-label">Tipo de Cuenta:</span>
+                                            <span class="info-value">Cuenta de Cheques</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card mt-4">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-chart-line me-2"></i>Estadísticas</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="text-center">
+                                                <h4 class="text-primary">1,247</h4>
+                                                <p class="text-muted">Facturas Totales</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="text-center">
+                                                <h4 class="text-success">$2.4M</h4>
+                                                <p class="text-muted">Monto Factorizado</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="text-center">
+                                                <h4 class="text-warning">87%</h4>
+                                                <p class="text-muted">Tasa de Aprobación</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="text-center">
+                                                <h4 class="text-info">2.5 días</h4>
+                                                <p class="text-muted">Tiempo Promedio</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

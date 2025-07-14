@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - TekProvider</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <img src="img/logo_tekprovider.png" alt="TekProvider" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <i class="fas fa-building logo-fallback" style="display: none;"></i>
+                <h3>TekProvider</h3>
+            </div>
+            <ul class="sidebar-nav">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link active">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="facturas.html" class="nav-link">
+                        <i class="fas fa-file-invoice"></i>
+                        <span>Mis Facturas</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="solicitudes.html" class="nav-link">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>Solicitudes de Factoraje</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="estatus.html" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Estatus</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="reportes.html" class="nav-link">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Reportes</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="tickets.html" class="nav-link">
+                        <i class="fas fa-headset"></i>
+                        <span>Mesa de Ayuda</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="perfil.html" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <span>Mi Perfil</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div id="content" class="content">
+            <!-- Top Navigation -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarToggle" class="btn btn-outline-primary me-3">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    
+                    <div class="navbar-nav ms-auto d-flex flex-row align-items-center">
+                        <!-- Notifications -->
+                        <div class="nav-item dropdown me-3">
+                            <a class="nav-link position-relative" href="#" id="notificationsDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-bell fs-5 text-muted"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
+                                    3
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" style="width: 300px;">
+                                <li class="dropdown-header">
+                                    <strong>Notificaciones</strong>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item py-2" href="#">
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0">
+                                                <i class="fas fa-check-circle text-success"></i>
+                                            </div>
+                                            <div class="flex-grow-1 ms-2">
+                                                <small class="text-muted">Hace 5 min</small>
+                                                <div>Factura F001 aprobada</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item py-2" href="#">
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0">
+                                                <i class="fas fa-exclamation-triangle text-warning"></i>
+                                            </div>
+                                            <div class="flex-grow-1 ms-2">
+                                                <small class="text-muted">Hace 1 hora</small>
+                                                <div>Documento pendiente de revisión</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item py-2" href="#">
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0">
+                                                <i class="fas fa-info-circle text-info"></i>
+                                            </div>
+                                            <div class="flex-grow-1 ms-2">
+                                                <small class="text-muted">Hace 2 horas</small>
+                                                <div>Nuevo reporte disponible</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item text-center" href="#">Ver todas las notificaciones</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- User Profile -->
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                                <img src="https://images.pexels.com/photos/3778966/pexels-photo-3778966.jpeg?auto=compress&cs=tinysrgb&w=40&h=40&dpr=2" 
+                                     alt="Usuario" class="rounded-circle me-2" width="32" height="32">
+                                <span>Admin</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item" href="perfil.html">
+                                        <i class="fas fa-user me-2"></i>Mi Perfil
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fas fa-cog me-2"></i>Configuración
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item" href="#" onclick="logout()">
+                                        <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Dashboard Content -->
+            <div class="main-content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-header">
+                                <h1>Dashboard</h1>
+                                <p>Resumen de tu actividad en factoraje</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KPIs -->
+                    <div class="row">
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card kpi-card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="kpi-icon bg-primary">
+                                            <i class="fas fa-file-invoice text-white"></i>
+                                        </div>
+                                        <div>
+                                            <h3>1,247</h3>
+                                            <p>Facturas Emitidas</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card kpi-card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="kpi-icon bg-success">
+                                            <i class="fas fa-dollar-sign text-white"></i>
+                                        </div>
+                                        <div>
+                                            <h3>$2.4M</h3>
+                                            <p>Monto Enviado a Factoraje</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card kpi-card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="kpi-icon bg-warning">
+                                            <i class="fas fa-hand-holding-usd text-white"></i>
+                                        </div>
+                                        <div>
+                                            <h3>$1.8M</h3>
+                                            <p>Anticipos Recibidos</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card kpi-card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="kpi-icon bg-info">
+                                            <i class="fas fa-percentage text-white"></i>
+                                        </div>
+                                        <div>
+                                            <h3>87%</h3>
+                                            <p>Porcentaje de Aprobación</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts -->
+                    <div class="row">
+                        <div class="col-xl-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Facturas por Mes</h5>
+                                    <p class="text-muted mb-0">Evolución mensual de facturas emitidas</p>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-container">
+                                        <canvas id="monthlyChart"></canvas>
+                                    </div>
+                                    <div class="chart-interpretation">
+                                        <p><strong>Interpretación:</strong> Se observa un crecimiento sostenido en la emisión de facturas, con un pico en octubre y noviembre debido a la temporada alta de ventas.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Distribución de Anticipos</h5>
+                                    <p class="text-muted mb-0">Anticipos vs. Pendientes</p>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-container">
+                                        <canvas id="donutChart"></canvas>
+                                    </div>
+                                    <div class="chart-interpretation">
+                                        <p><strong>Interpretación:</strong> El 75% de las solicitudes han recibido anticipos, mostrando una excelente eficiencia operativa.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Evolución de Factorajes</h5>
+                                    <p class="text-muted mb-0">Tendencia de operaciones de factoraje</p>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-container">
+                                        <canvas id="lineChart"></canvas>
+                                    </div>
+                                    <div class="chart-interpretation">
+                                        <p><strong>Interpretación:</strong> Tendencia positiva con crecimiento del 15% trimestral en operaciones de factoraje.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Pagos Recibidos</h5>
+                                    <p class="text-muted mb-0">Flujo de pagos por período</p>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-container">
+                                        <canvas id="areaChart"></canvas>
+                                    </div>
+                                    <div class="chart-interpretation">
+                                        <p><strong>Interpretación:</strong> Los pagos mantienen un flujo constante con mejoras en los tiempos de cobro.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/charts.js"></script>
+</body>
+</html>
