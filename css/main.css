@@ -662,3 +662,54 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: #a8a8a8;
 }
+
+/* Quotation Modal Styles */
+.operation-card, .resource-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid #dee2e6;
+}
+
+.operation-card:hover, .resource-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.operation-card.selected {
+    border-color: #0d6efd;
+    background-color: #0d6efd;
+    color: white;
+}
+
+.resource-card.selected {
+    border-color: #198754;
+    background-color: #198754;
+    color: white;
+}
+
+/* Calculation Results */
+#calculationResults .fw-bold {
+    font-size: 1.1rem;
+}
+
+/* Payment Schedule */
+#paymentSchedule td {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+}
+
+/* Sort button styles */
+.table th button {
+    background: none;
+    border: none;
+    color: #6c757d;
+    font-size: 0.8rem;
+    padding: 2px 4px;
+    border-radius: 3px;
+    transition: all 0.2s ease;
+}
+
+.table th button:hover {
+    background-color: #e9ecef;
+    color: #495057;
+}
