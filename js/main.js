@@ -1,3 +1,13 @@
+// Variable para controlar el orden de las fechas
+let sortOrder = 'desc'; // 'desc' para más nueva a más antigua, 'asc' para más antigua a más nueva
+
+function toggleSort() {
+    sortOrder = sortOrder === 'desc' ? 'asc' : 'desc';
+    const icon = document.getElementById('sortIcon');
+    icon.className = sortOrder === 'desc' ? 'fas fa-sort-down' : 'fas fa-sort-up';
+    loadFacturas();
+}
+
 // Check authentication on page load
 document.addEventListener('DOMContentLoaded', function() {
     if (localStorage.getItem('isLoggedIn') !== 'true') {
@@ -275,6 +285,36 @@ function exportToExcel() {
     }
     
     exportTableToExcel(tableId, filename);
+}
+
+function loadFacturas() {
+    // Ordenar facturas por fecha
+    const facturasOrdenadas = [...facturas].sort((a, b) => {
+        const fechaA = new Date(a.fechaEmision).getTime();
+        const fechaB = new Date(b.fechaEmision).getTime();
+        return sortOrder === 'desc' ? fechaB - fechaA : fechaA - fechaB;
+    });
+    
+    const tbody = document.getElementById('facturasTableBody');
+    tbody.innerHTML = '';
+    
+    facturasOrdenadas.forEach(factura => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td><input type="checkbox" class="factura-checkbox" data-id="${factura.id}"></td>
+            <td>${factura.folio}</td>
+            <td>${factura.cliente}</td>
+            <td><span class="badge ${factura.tipoOperacion === 'Proveedor' ? 'bg-primary' : 'bg-info'}">${factura.tipoOperacion}</span></td>
+            <td><span class="badge ${factura.recurso === 'Con Recurso' ? 'bg-warning' : 'bg-success'}">${factura.recurso}</span></td>
+            <td>${factura.cedente}</td>
+            <td>${factura.pagador}</td>
+            <td>$${factura.monto.toLocaleString()}</td>
+            <td>${factura.fechaEmision}</td>
+            <td>${factura.fechaVencimiento}</td>
+            <td><span class="badge ${getStatusBadge(factura.estatus)}">${factura.estatus}</span></td>
+        `;
+        tbody.appendChild(row);
+    });
 }
 
 // Initialize tooltips and popovers

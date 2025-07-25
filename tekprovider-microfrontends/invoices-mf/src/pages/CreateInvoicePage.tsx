@@ -17,6 +17,11 @@ interface InvoiceForm {
   issueDate: string
   dueDate: string
   description: string
+  operationType: 'Provider' | 'Client'
+  resourceType: 'WithRecourse' | 'WithoutRecourse'
+  assignor: string
+  payer: string
+  relationship: string
 }
 
 export const CreateInvoicePage: React.FC = () => {
@@ -115,6 +120,63 @@ export const CreateInvoicePage: React.FC = () => {
               type="date"
               {...register('dueDate', { required: 'La fecha de vencimiento es requerida' })}
               error={errors.dueDate?.message}
+            />
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Tipo de Operación *
+              </label>
+              <select
+                {...register('operationType', { required: 'El tipo de operación es requerido' })}
+                className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              >
+                <option value="">Seleccionar tipo</option>
+                <option value="Provider">Por Proveedor</option>
+                <option value="Client">Por Cliente</option>
+              </select>
+              {errors.operationType && (
+                <p className="text-sm text-red-600 mt-1">{errors.operationType.message}</p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Tipo de Recurso *
+              </label>
+              <select
+                {...register('resourceType', { required: 'El tipo de recurso es requerido' })}
+                className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              >
+                <option value="">Seleccionar recurso</option>
+                <option value="WithRecourse">Con Recurso</option>
+                <option value="WithoutRecourse">Sin Recurso</option>
+              </select>
+              {errors.resourceType && (
+                <p className="text-sm text-red-600 mt-1">{errors.resourceType.message}</p>
+              )}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Input
+              label="Cedente *"
+              {...register('assignor', { required: 'El cedente es requerido' })}
+              error={errors.assignor?.message}
+              placeholder="Nombre del cedente"
+            />
+
+            <Input
+              label="Pagador *"
+              {...register('payer', { required: 'El pagador es requerido' })}
+              error={errors.payer?.message}
+              placeholder="Nombre del pagador"
+            />
+
+            <Input
+              label="Relación"
+              {...register('relationship')}
+              error={errors.relationship?.message}
+              placeholder="Relación entre cedente y pagador"
             />
           </div>
 

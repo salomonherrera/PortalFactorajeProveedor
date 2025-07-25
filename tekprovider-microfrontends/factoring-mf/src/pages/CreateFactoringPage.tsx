@@ -19,6 +19,20 @@ export const CreateFactoringPage: React.FC = () => {
   const [selectedInvoices, setSelectedInvoices] = useState<number[]>([])
   const [notes, setNotes] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showQuotation, setShowQuotation] = useState(false)
+  
+  // Quotation fields
+  const [quotation, setQuotation] = useState({
+    termDays: 30,
+    advancePercentage: 80,
+    retentionPercentage: 15,
+    interestRate: 2.5,
+    commissionPercentage: 3.0,
+    cedente: '',
+    pagador: '',
+    operationType: 'Provider' as 'Provider' | 'Client',
+    resourceType: 'WithRecourse' as 'WithRecourse' | 'WithoutRecourse'
+  })
 
   const { data: invoices, loading } = useApi<Invoice[]>(API_ENDPOINTS.INVOICES)
 
@@ -41,6 +55,24 @@ export const CreateFactoringPage: React.FC = () => {
       .reduce((sum, invoice) => sum + invoice.amount, 0)
   }
 
+  const calculateQuotation = () => {
+    const totalAmount = getTotalAmount()
+    const advanceAmount = totalAmount * (quotation.advancePercentage / 100)
+    const retentionAmount = totalAmount * (quotation.retentionPercentage / 100)
+    const commissionAmount = totalAmount * (quotation.commissionPercentage / 100)
+    const netAmount = advanceAmount - commissionAmount
+    
+    return {
+      totalAmount,
+      advanceAmount,
+      retentionAmount,
+      commissionAmount,
+      netAmount
+    }
+  }
+
+  const calculatedAmounts = calculateQuotation()
+
   const handleSubmit = async () => {
     if (selectedInvoices.length === 0) {
       alert('Debe seleccionar al menos una factura')
@@ -58,7 +90,11 @@ export const CreateFactoringPage: React.FC = () => {
         },
         body: JSON.stringify({
           invoiceIds: selectedInvoices,
-          notes
+          notes,
+          quotation: {
+            ...quotation,
+            ...calculatedAmounts
+          }
         })
       })
 
@@ -170,6 +206,173 @@ export const CreateFactoringPage: React.FC = () => {
                 <p className="text-2xl font-bold text-green-600">
                   {formatCurrency(getTotalAmount())}
                 </p>
+              </div>
+
+              <div className="border-t pt-4">
+                <Button
+                  variant="outline"
+                  onClick={() => setShowQuotation(!showQuotation)}
+                  className="w-full mb-4"
+                >
+                  {showQuotation ? 'Ocultar' : 'Mostrar'} Cotización
+                </Button>
+
+                {showQuotation && (
+                  <div className="space-y-4 bg-gray-50 p-4 rounded-lg">
+                    <h4 className="font-semibold text-gray-900">Simulador de Cotización</h4>
+                    
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">
+                          Plazo (días)
+                        </label>
+                        <input
+                          type="number"
+                          value={quotation.termDays}
+                          onChange={(e) => setQuotation({...quotation, termDays: Number(e.target.value)})}
+                          className="w-full px-2 py-1 text-sm border border-gray-300 rounded"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">
+                          % Adelanto
+                        </label>
+                        <input
+                          type="number"
+                          step="0.1"
+                          value={quotation.advancePercentage}
+                          onChange={(e) => setQuotation({...quotation, advancePercentage: Number(e.target.value)})}
+                          className="w-full px-2 py-1 text-sm border border-gray-300 rounded"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">
+                          % Retención
+                        </label>
+                        <input
+                          type="number"
+                          step="0.1"
+                          value={quotation.retentionPercentage}
+                          onChange={(e) => setQuotation({...quotation, retentionPercentage: Number(e.target.value)})}
+                          className="w-full px-2 py-1 text-sm border border-gray-300 rounded"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">
+                          Tasa %
+                        </label>
+                        <input
+                          type="number"
+                          step="0.1"
+                          value={quotation.interestRate}
+                          onChange={(e) => setQuotation({...quotation, interestRate: Number(e.target.value)})}
+                          className="w-full px-2 py-1 text-sm border border-gray-300 rounded"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">
+                          % Comisión
+                        </label>
+                        <input
+                          type="number"
+                          step="0.1"
+                          value={quotation.commissionPercentage}
+                          onChange={(e) => setQuotation({...quotation, commissionPercentage: Number(e.target.value)})}
+                          className="w-full px-2 py-1 text-sm border border-gray-300 rounded"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-3">
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">
+                          Cedente
+                        </label>
+                        <input
+                          type="text"
+                          value={quotation.cedente}
+                          onChange={(e) => setQuotation({...quotation, cedente: e.target.value})}
+                          className="w-full px-2 py-1 text-sm border border-gray-300 rounded"
+                          placeholder="Nombre del cedente"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">
+                          Pagador
+                        </label>
+                        <input
+                          type="text"
+                          value={quotation.pagador}
+                          onChange={(e) => setQuotation({...quotation, pagador: e.target.value})}
+                          className="w-full px-2 py-1 text-sm border border-gray-300 rounded"
+                          placeholder="Nombre del pagador"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">
+                          Tipo Operación
+                        </label>
+                        <select
+                          value={quotation.operationType}
+                          onChange={(e) => setQuotation({...quotation, operationType: e.target.value as 'Provider' | 'Client'})}
+                          className="w-full px-2 py-1 text-sm border border-gray-300 rounded"
+                        >
+                          <option value="Provider">Por Proveedor</option>
+                          <option value="Client">Por Cliente</option>
+                        </select>
+                      </div>
+                      
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">
+                          Tipo Recurso
+                        </label>
+                        <select
+                          value={quotation.resourceType}
+                          onChange={(e) => setQuotation({...quotation, resourceType: e.target.value as 'WithRecourse' | 'WithoutRecourse'})}
+                          className="w-full px-2 py-1 text-sm border border-gray-300 rounded"
+                        >
+                          <option value="WithRecourse">Con Recurso</option>
+                          <option value="WithoutRecourse">Sin Recurso</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="border-t pt-3 space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span>Adelanto ({quotation.advancePercentage}%):</span>
+                        <span className="font-semibold text-green-600">
+                          {formatCurrency(calculatedAmounts.advanceAmount)}
+                        </span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Retención ({quotation.retentionPercentage}%):</span>
+                        <span className="font-semibold text-yellow-600">
+                          {formatCurrency(calculatedAmounts.retentionAmount)}
+                        </span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Comisión ({quotation.commissionPercentage}%):</span>
+                        <span className="font-semibold text-red-600">
+                          {formatCurrency(calculatedAmounts.commissionAmount)}
+                        </span>
+                      </div>
+                      <div className="flex justify-between text-sm font-bold border-t pt-2">
+                        <span>Neto a Recibir:</span>
+                        <span className="text-blue-600">
+                          {formatCurrency(calculatedAmounts.netAmount)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div>

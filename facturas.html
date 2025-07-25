@@ -146,8 +146,16 @@
                                             <th><input type="checkbox" id="selectAll"></th>
                                             <th>Folio</th>
                                             <th>Cliente</th>
+                                            <th>Tipo Operación</th>
+                                            <th>Recurso</th>
+                                            <th>Cedente</th>
+                                            <th>Pagador</th>
                                             <th>Monto</th>
-                                            <th>Fecha Emisión</th>
+                                            <th>Fecha Emisión 
+                                                <button onclick="toggleSort()" class="btn btn-sm btn-outline-secondary ms-1">
+                                                    <i id="sortIcon" class="fas fa-sort-down"></i>
+                                                </button>
+                                            </th>
                                             <th>Fecha Vencimiento</th>
                                             <th>Estatus</th>
                                         </tr>
@@ -219,84 +227,3 @@
             {id: 12, folio: 'F012', cliente: 'Home Depot', monto: 298000, fechaEmision: '2024-01-26', fechaVencimiento: '2024-02-26', estatus: 'Emitida'},
             {id: 13, folio: 'F013', cliente: 'Costco', monto: 445000, fechaEmision: '2024-01-27', fechaVencimiento: '2024-02-27', estatus: 'Pagada'},
             {id: 14, folio: 'F014', cliente: 'Sams Club', monto: 356000, fechaEmision: '2024-01-28', fechaVencimiento: '2024-02-28', estatus: 'Emitida'},
-            {id: 15, folio: 'F015', cliente: 'Mercado Libre', monto: 78000, fechaEmision: '2024-01-29', fechaVencimiento: '2024-03-01', estatus: 'Emitida'},
-            {id: 16, folio: 'F016', cliente: 'Amazon México', monto: 189000, fechaEmision: '2024-01-30', fechaVencimiento: '2024-03-02', estatus: 'Pagada'},
-            {id: 17, folio: 'F017', cliente: 'Grupo Bimbo', monto: 123000, fechaEmision: '2024-01-31', fechaVencimiento: '2024-03-03', estatus: 'Emitida'},
-            {id: 18, folio: 'F018', cliente: 'Femsa', monto: 267000, fechaEmision: '2024-02-01', fechaVencimiento: '2024-03-04', estatus: 'Vencida'},
-            {id: 19, folio: 'F019', cliente: 'Alsea', monto: 89000, fechaEmision: '2024-02-02', fechaVencimiento: '2024-03-05', estatus: 'Emitida'},
-            {id: 20, folio: 'F020', cliente: 'Cinépolis', monto: 156000, fechaEmision: '2024-02-03', fechaVencimiento: '2024-03-06', estatus: 'Pagada'},
-            {id: 21, folio: 'F021', cliente: 'Telcel', monto: 234000, fechaEmision: '2024-02-04', fechaVencimiento: '2024-03-07', estatus: 'Emitida'},
-            {id: 22, folio: 'F022', cliente: 'Movistar', monto: 145000, fechaEmision: '2024-02-05', fechaVencimiento: '2024-03-08', estatus: 'Emitida'}
-        ];
-
-        function loadFacturas() {
-            const tbody = document.getElementById('facturasTableBody');
-            tbody.innerHTML = '';
-            
-            facturas.forEach(factura => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><input type="checkbox" class="factura-checkbox" data-id="${factura.id}"></td>
-                    <td>${factura.folio}</td>
-                    <td>${factura.cliente}</td>
-                    <td>$${factura.monto.toLocaleString()}</td>
-                    <td>${factura.fechaEmision}</td>
-                    <td>${factura.fechaVencimiento}</td>
-                    <td><span class="badge ${getStatusBadge(factura.estatus)}">${factura.estatus}</span></td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-
-        function getStatusBadge(status) {
-            switch(status) {
-                case 'Emitida': return 'bg-primary';
-                case 'Pagada': return 'bg-success';
-                case 'Vencida': return 'bg-danger';
-                default: return 'bg-secondary';
-            }
-        }
-
-        function sendToFactoring() {
-            const selected = document.querySelectorAll('.factura-checkbox:checked');
-            if (selected.length === 0) {
-                showAlert('Por favor seleccione al menos una factura', 'warning');
-                return;
-            }
-            
-            document.getElementById('selectedCount').textContent = selected.length;
-            const modal = new bootstrap.Modal(document.getElementById('confirmModal'));
-            modal.show();
-        }
-
-        function confirmSend() {
-            const selected = document.querySelectorAll('.factura-checkbox:checked');
-            const selectedIds = Array.from(selected).map(cb => cb.dataset.id);
-            
-            // Store selected invoices for solicitudes page
-            localStorage.setItem('selectedInvoices', JSON.stringify(selectedIds));
-            
-            // Hide confirmation modal
-            const confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
-            confirmModal.hide();
-            
-            // Show success modal
-            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-            successModal.show();
-            
-            // Uncheck all checkboxes
-            selected.forEach(cb => cb.checked = false);
-            document.getElementById('selectAll').checked = false;
-        }
-
-        // Select all functionality
-        document.getElementById('selectAll').addEventListener('change', function() {
-            const checkboxes = document.querySelectorAll('.factura-checkbox');
-            checkboxes.forEach(cb => cb.checked = this.checked);
-        });
-
-        // Load data on page load
-        document.addEventListener('DOMContentLoaded', loadFacturas);
-    </script>
-</body>
-</html>

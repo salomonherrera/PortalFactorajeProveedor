@@ -14,6 +14,8 @@ export const API_ENDPOINTS = {
   // Factoring
   FACTORING: '/api/factoring',
   FACTORING_BY_STATUS: (status: string) => `/api/factoring/status/${status}`,
+  FACTORING_QUOTATION: (id: number) => `/api/factoring/${id}/quotation`,
+  FACTORING_PAYMENTS: (id: number) => `/api/factoring/${id}/payments`,
   FACTORING_APPROVE: (id: number) => `/api/factoring/${id}/approve`,
   FACTORING_REJECT: (id: number) => `/api/factoring/${id}/reject`,
   FACTORING_TOTAL: '/api/factoring/total',

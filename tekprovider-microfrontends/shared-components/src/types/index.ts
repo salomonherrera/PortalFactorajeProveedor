@@ -12,13 +12,19 @@ export interface Invoice {
   id: number
   folio: string
   clientName: string
+  clientRFC?: string
   amount: number
   issueDate: string
   dueDate: string
   status: 'Issued' | 'Paid' | 'Overdue' | 'Cancelled'
   description?: string
-  clientRFC?: string
   userId: number
+  // Nuevos campos para factoraje
+  operationType: 'Provider' | 'Client' // Por Proveedor o por Cliente
+  resourceType: 'WithRecourse' | 'WithoutRecourse' // Con recurso o sin recurso
+  assignor?: string // Cedente
+  payer?: string // Pagador
+  relationship?: string // Relación entre cedente y pagador
 }
 
 export interface FactoringRequest {
@@ -27,13 +33,54 @@ export interface FactoringRequest {
   userId: number
   totalAmount: number
   status: 'InProcess' | 'Approved' | 'Rejected' | 'Paid'
-  commissionRate?: number
-  commissionAmount?: number
-  advanceAmount?: number
+  // Información de cotización
+  advancePercentage?: number // % de Adelanto
+  retentionPercentage?: number // % de Retención
+  interestRate?: number // Tasa de interés
+  commissionPercentage?: number // % de Comisión
+  termDays?: number // Plazo en días
+  // Montos calculados
+  advanceAmount?: number // Monto de adelanto
+  retentionAmount?: number // Monto de retención
+  commissionAmount?: number // Monto de comisión
+  netAmount?: number // Monto neto a recibir
   paymentDate?: string
   notes?: string
   createdAt: string
+  quotationDate?: string // Fecha de cotización
   invoices: Invoice[]
+  payments?: Payment[] // Tabla de pagos
+}
+
+export interface Payment {
+  id: number
+  factoringRequestId: number
+  paymentNumber: number
+  dueDate: string
+  amount: number
+  status: 'Pending' | 'Paid' | 'Overdue'
+  paymentDate?: string
+  description?: string
+}
+
+export interface FactoringQuotation {
+  id: number
+  factoringRequestId: number
+  cedente: string // Cedente
+  pagador: string // Pagador
+  operationType: 'Provider' | 'Client'
+  resourceType: 'WithRecourse' | 'WithoutRecourse'
+  totalAmount: number
+  termDays: number
+  advancePercentage: number
+  retentionPercentage: number
+  interestRate: number
+  commissionPercentage: number
+  advanceAmount: number
+  retentionAmount: number
+  commissionAmount: number
+  netAmount: number
+  createdAt: string
 }
 
 export interface SupportTicket {

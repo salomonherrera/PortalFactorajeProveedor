@@ -27,6 +27,7 @@ export const InvoicesListPage: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState('')
   const [dateFrom, setDateFrom] = useState('')
   const [dateTo, setDateTo] = useState('')
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
 
   const { data: invoices, loading, error, refetch } = useApi<Invoice[]>(API_ENDPOINTS.INVOICES)
 
@@ -38,6 +39,10 @@ export const InvoicesListPage: React.FC = () => {
     const matchesDateTo = !dateTo || new Date(invoice.issueDate) <= new Date(dateTo)
     
     return matchesSearch && matchesStatus && matchesDateFrom && matchesDateTo
+  })?.sort((a, b) => {
+    const dateA = new Date(a.issueDate).getTime()
+    const dateB = new Date(b.issueDate).getTime()
+    return sortOrder === 'desc' ? dateB - dateA : dateA - dateB
   }) || []
 
   const columns = [
@@ -53,6 +58,28 @@ export const InvoicesListPage: React.FC = () => {
       header: 'Cliente'
     },
     {
+      key: 'operationType' as keyof Invoice,
+      header: 'Tipo Operación',
+      render: (value: string) => (
+        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+          value === 'Provider' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800'
+        }`}>
+          {value === 'Provider' ? 'Por Proveedor' : 'Por Cliente'}
+        </span>
+      )
+    },
+    {
+      key: 'resourceType' as keyof Invoice,
+      header: 'Recurso',
+      render: (value: string) => (
+        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+          value === 'WithRecourse' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
+        }`}>
+          {value === 'WithRecourse' ? 'Con Recurso' : 'Sin Recurso'}
+        </span>
+      )
+    },
+    {
       key: 'amount' as keyof Invoice,
       header: 'Monto',
       render: (value: number) => (
@@ -61,13 +88,33 @@ export const InvoicesListPage: React.FC = () => {
     },
     {
       key: 'issueDate' as keyof Invoice,
-      header: 'Fecha Emisión',
+      header: (
+        <div className="flex items-center space-x-1">
+          <span>Fecha Emisión</span>
+          <button
+            onClick={() => setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc')}
+            className="text-gray-400 hover:text-gray-600"
+          >
+            {sortOrder === 'desc' ? '↓' : '↑'}
+          </button>
+        </div>
+      ),
       render: (value: string) => formatDate(value)
     },
     {
       key: 'dueDate' as keyof Invoice,
       header: 'Fecha Vencimiento',
       render: (value: string) => formatDate(value)
+    },
+    {
+      key: 'assignor' as keyof Invoice,
+      header: 'Cedente',
+      render: (value: string | undefined) => value || 'N/A'
+    },
+    {
+      key: 'payer' as keyof Invoice,
+      header: 'Pagador',
+      render: (value: string | undefined) => value || 'N/A'
     },
     {
       key: 'status' as keyof Invoice,
