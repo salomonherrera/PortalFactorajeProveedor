@@ -33,7 +33,7 @@ if (!window.facturasEnFactoraje) {
 }
 
 // Variable para controlar el orden de las fechas
-let sortOrder = 'desc'; // 'desc' para más nueva a más antigua, 'asc' para más antigua a más nueva
+var sortOrder = 'desc'; // 'desc' para más nueva a más antigua, 'asc' para más antigua a más nueva
 
 function toggleSort() {
     sortOrder = sortOrder === 'desc' ? 'asc' : 'desc';
@@ -402,6 +402,17 @@ function loadFacturas() {
     
     // Actualizar estadísticas
     updateFacturasStats();
+}
+
+function getStatusBadge(status) {
+    switch(status) {
+        case 'Emitida': return 'bg-primary';
+        case 'Pagada': return 'bg-success';
+        case 'Vencida': return 'bg-danger';
+        case 'En Proceso': return 'bg-warning';
+        case 'Cancelada': return 'bg-secondary';
+        default: return 'bg-secondary';
+    }
 }
 
 function updateFacturasStats() {
