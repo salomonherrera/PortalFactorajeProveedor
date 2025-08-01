@@ -10,6 +10,8 @@ export { LoadingSpinner } from './components/LoadingSpinner'
 export { DataTable } from './components/DataTable'
 export { StatusBadge } from './components/StatusBadge'
 export { KPICard } from './components/KPICard'
+export { QuotationSimulator } from './components/QuotationSimulator'
+export { PaymentSchedule } from './components/PaymentSchedule'
 
 // Hooks
 export { useAuth } from './hooks/useAuth'

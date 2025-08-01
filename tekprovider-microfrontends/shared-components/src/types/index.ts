@@ -6,6 +6,23 @@ export interface User {
   phone?: string
   providerCode: string
   isActive: boolean
+  userType: 'Provider' | 'Client' // Tipo de usuario
+  factoringConfig?: FactoringConfig // Configuración de factoraje
+}
+
+export interface FactoringConfig {
+  id: number
+  userId: number
+  factoringType: 'ClientFactoring' | 'ProviderFactoring' // Factoraje de clientes o proveedores
+  resourceType: 'WithRecourse' | 'WithoutRecourse' // Con recurso o sin recurso
+  defaultTermDays: number // Plazo por defecto
+  defaultAdvancePercentage: number // % Adelanto por defecto
+  defaultRetentionPercentage: number // % Retención por defecto
+  defaultInterestRate: number // Tasa por defecto
+  defaultCommissionPercentage: number // % Comisión por defecto
+  isActive: boolean
+  createdAt: string
+  updatedAt?: string
 }
 
 export interface Invoice {
@@ -19,12 +36,13 @@ export interface Invoice {
   status: 'Issued' | 'Paid' | 'Overdue' | 'Cancelled'
   description?: string
   userId: number
-  // Nuevos campos para factoraje
-  operationType: 'Provider' | 'Client' // Por Proveedor o por Cliente
-  resourceType: 'WithRecourse' | 'WithoutRecourse' // Con recurso o sin recurso
-  assignor?: string // Cedente
-  payer?: string // Pagador
-  relationship?: string // Relación entre cedente y pagador
+  // Información de factoraje
+  assignor: string // Cedente (quien cede la factura)
+  payer: string // Pagador (quien debe pagar la factura)
+  relationship?: string // Relación comercial entre cedente y pagador
+  // Campos calculados basados en configuración
+  operationType?: 'ClientFactoring' | 'ProviderFactoring'
+  resourceType?: 'WithRecourse' | 'WithoutRecourse'
 }
 
 export interface FactoringRequest {
@@ -33,23 +51,15 @@ export interface FactoringRequest {
   userId: number
   totalAmount: number
   status: 'InProcess' | 'Approved' | 'Rejected' | 'Paid'
-  // Información de cotización
-  advancePercentage?: number // % de Adelanto
-  retentionPercentage?: number // % de Retención
-  interestRate?: number // Tasa de interés
-  commissionPercentage?: number // % de Comisión
-  termDays?: number // Plazo en días
-  // Montos calculados
-  advanceAmount?: number // Monto de adelanto
-  retentionAmount?: number // Monto de retención
-  commissionAmount?: number // Monto de comisión
-  netAmount?: number // Monto neto a recibir
+  factoringType: 'ClientFactoring' | 'ProviderFactoring' // Tipo de factoraje
+  resourceType: 'WithRecourse' | 'WithoutRecourse' // Tipo de recurso
+  quotation?: FactoringQuotation // Cotización detallada
   paymentDate?: string
   notes?: string
   createdAt: string
-  quotationDate?: string // Fecha de cotización
   invoices: Invoice[]
-  payments?: Payment[] // Tabla de pagos
+  payments?: Payment[]
+  financialQuote?: FinancialQuote // Cotización con financiera
 }
 
 export interface Payment {
@@ -66,21 +76,61 @@ export interface Payment {
 export interface FactoringQuotation {
   id: number
   factoringRequestId: number
-  cedente: string // Cedente
-  pagador: string // Pagador
-  operationType: 'Provider' | 'Client'
+  // Información de partes
+  assignor: string // Cedente
+  payer: string // Pagador
+  relationship?: string // Relación comercial
+  // Tipo de operación
+  factoringType: 'ClientFactoring' | 'ProviderFactoring'
   resourceType: 'WithRecourse' | 'WithoutRecourse'
+  // Condiciones financieras
   totalAmount: number
   termDays: number
   advancePercentage: number
   retentionPercentage: number
   interestRate: number
   commissionPercentage: number
+  // Montos calculados
   advanceAmount: number
   retentionAmount: number
   commissionAmount: number
   netAmount: number
+  // Información adicional
+  cat: number // CAT (Costo Anual Total)
   createdAt: string
+}
+
+export interface FinancialQuote {
+  id: number
+  factoringRequestId: number
+  financialInstitution: string // Institución financiera
+  quotationNumber: string // Número de cotización
+  totalAmount: number
+  termDays: number
+  interestRate: number
+  commissionPercentage: number
+  cat: number // CAT
+  netAmount: number
+  status: 'Pending' | 'Approved' | 'Rejected'
+  validUntil: string // Vigencia de la cotización
+  notes?: string
+  createdAt: string
+  approvedAt?: string
+}
+
+export interface InvoiceUpload {
+  id: number
+  fileName: string
+  originalName: string
+  fileSize: number
+  mimeType: string
+  uploadedBy: number
+  factoringRequestId?: number
+  status: 'Uploaded' | 'Processing' | 'Processed' | 'Error'
+  processedData?: Partial<Invoice> // Datos extraídos del archivo
+  errorMessage?: string
+  uploadedAt: string
+  processedAt?: string
 }
 
 export interface SupportTicket {

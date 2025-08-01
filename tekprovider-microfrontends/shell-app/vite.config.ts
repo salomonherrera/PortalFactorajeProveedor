@@ -12,7 +12,8 @@ export default defineConfig({
         'dashboard-mf': 'http://localhost:3002/assets/remoteEntry.js',
         'invoices-mf': 'http://localhost:3003/assets/remoteEntry.js',
         'factoring-mf': 'http://localhost:3004/assets/remoteEntry.js',
-        'support-mf': 'http://localhost:3005/assets/remoteEntry.js'
+        'support-mf': 'http://localhost:3005/assets/remoteEntry.js',
+        'config-mf': 'http://localhost:3006/assets/remoteEntry.js'
       },
       shared: ['react', 'react-dom', 'react-router-dom']
     })

@@ -11,6 +11,7 @@ const DashboardMF = React.lazy(() => import('dashboard-mf/App'))
 const InvoicesMF = React.lazy(() => import('invoices-mf/App'))
 const FactoringMF = React.lazy(() => import('factoring-mf/App'))
 const SupportMF = React.lazy(() => import('support-mf/App'))
+const ConfigMF = React.lazy(() => import('config-mf/App'))
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, isLoading } = useAuth()
@@ -84,6 +85,17 @@ const AppRoutes: React.FC = () => {
             <ProtectedRoute>
               <Suspense fallback={<LoadingSpinner />}>
                 <SupportMF />
+              </Suspense>
+            </ProtectedRoute>
+          } 
+        />
+        
+        <Route 
+          path="config/*" 
+          element={
+            <ProtectedRoute>
+              <Suspense fallback={<LoadingSpinner />}>
+                <ConfigMF />
               </Suspense>
             </ProtectedRoute>
           } 

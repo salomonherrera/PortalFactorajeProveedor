@@ -53,6 +53,13 @@ start "Support MF" cmd /k "npm run dev"
 cd ..
 timeout /t 2 /nobreak >nul
 
+REM Start Config Microfrontend
+echo 🔄 Starting Config MF on port 3006...
+cd config-mf
+start "Config MF" cmd /k "npm run dev"
+cd ..
+timeout /t 2 /nobreak >nul
+
 REM Start Shell Application
 echo 🔄 Starting Shell App on port 3000...
 cd shell-app
@@ -69,6 +76,7 @@ echo    📊 Dashboard MF:  http://localhost:3002
 echo    📄 Invoices MF:   http://localhost:3003
 echo    💰 Factoring MF:  http://localhost:3004
 echo    🎫 Support MF:    http://localhost:3005
+echo    ⚙️  Config MF:     http://localhost:3006
 echo.
 echo 🔑 Default login credentials:
 echo    Username: admin

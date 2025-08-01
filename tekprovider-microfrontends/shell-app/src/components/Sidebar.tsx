@@ -4,25 +4,54 @@ import {
   LayoutDashboard, 
   FileText, 
   CreditCard, 
-  BarChart3, 
   HeadphonesIcon,
-  Building2
+  Building2,
+  Upload,
+  Settings
 } from 'lucide-react'
-import { cn } from '@tekprovider/shared-components'
-
-const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'Mis Facturas', href: '/invoices', icon: FileText },
-  { name: 'Factoraje', href: '/factoring', icon: CreditCard },
-  { name: 'Soporte', href: '/support', icon: HeadphonesIcon },
-]
+import { cn, useAuth } from '@tekprovider/shared-components'
 
 export const Sidebar: React.FC = () => {
+  const { user } = useAuth()
+
+  const getNavigationItems = () => {
+    const baseItems = [
+      { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+    ]
+
+    if (user?.userType === 'Provider') {
+      baseItems.push(
+        { name: 'Mis Facturas', href: '/invoices', icon: FileText },
+        { name: 'Cargar Facturas', href: '/invoices/upload', icon: Upload },
+        { name: 'Solicitudes de Factoraje', href: '/factoring', icon: CreditCard }
+      )
+    } else if (user?.userType === 'Client') {
+      baseItems.push(
+        { name: 'Facturas de Proveedores', href: '/invoices', icon: FileText },
+        { name: 'Gestión de Factoraje', href: '/factoring', icon: CreditCard }
+      )
+    }
+
+    baseItems.push(
+      { name: 'Configuración', href: '/config', icon: Settings },
+      { name: 'Soporte', href: '/support', icon: HeadphonesIcon }
+    )
+
+    return baseItems
+  }
+
+  const navigation = getNavigationItems()
+
   return (
     <div className="flex flex-col w-64 bg-white shadow-lg">
       <div className="flex items-center justify-center h-16 px-4 bg-blue-600">
         <Building2 className="w-8 h-8 text-white mr-2" />
-        <h1 className="text-xl font-bold text-white">TekProvider</h1>
+        <div className="text-center">
+          <h1 className="text-xl font-bold text-white">TekProvider</h1>
+          <p className="text-xs text-blue-100">
+            {user?.userType === 'Provider' ? 'Portal Proveedores' : 'Portal Clientes'}
+          </p>
+        </div>
       </div>
       
       <nav className="flex-1 px-4 py-6 space-y-2">

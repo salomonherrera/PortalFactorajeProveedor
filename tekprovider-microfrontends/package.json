@@ -10,18 +10,20 @@
     "invoices-mf",
     "factoring-mf",
     "support-mf",
+    "config-mf",
     "shared-components"
   ],
   "scripts": {
     "install:all": "npm install && npm run install:workspaces",
     "install:workspaces": "npm install --workspaces",
-    "dev": "concurrently \"npm run dev:shell\" \"npm run dev:auth\" \"npm run dev:dashboard\" \"npm run dev:invoices\" \"npm run dev:factoring\" \"npm run dev:support\"",
+    "dev": "concurrently \"npm run dev:shell\" \"npm run dev:auth\" \"npm run dev:dashboard\" \"npm run dev:invoices\" \"npm run dev:factoring\" \"npm run dev:support\" \"npm run dev:config\"",
     "dev:shell": "npm run dev --workspace=shell-app",
     "dev:auth": "npm run dev --workspace=auth-mf",
     "dev:dashboard": "npm run dev --workspace=dashboard-mf",
     "dev:invoices": "npm run dev --workspace=invoices-mf",
     "dev:factoring": "npm run dev --workspace=factoring-mf",
     "dev:support": "npm run dev --workspace=support-mf",
+    "dev:config": "npm run dev --workspace=config-mf",
     "build": "npm run build --workspaces",
     "test": "npm run test --workspaces",
     "lint": "npm run lint --workspaces"

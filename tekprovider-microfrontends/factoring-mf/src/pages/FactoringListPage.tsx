@@ -6,7 +6,9 @@ import {
   TrendingUp,
   Clock,
   CheckCircle,
-  XCircle
+  XCircle,
+  Building,
+  Upload
 } from 'lucide-react'
 import { 
   Button, 
@@ -14,14 +16,21 @@ import {
   DataTable, 
   StatusBadge,
   useApi,
+  useAuth,
   formatCurrency,
   formatDate,
   API_ENDPOINTS,
   FactoringRequest
 } from '@tekprovider/shared-components'
+import { FinancialQuoteModal } from '../components/FinancialQuoteModal'
 
 export const FactoringListPage: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState('')
+  const [showFinancialQuote, setShowFinancialQuote] = useState(false)
+  const [selectedRequestId, setSelectedRequestId] = useState<number | null>(null)
+  const [selectedAmount, setSelectedAmount] = useState(0)
+  
+  const { user } = useAuth()
 
   const { data: requests, loading, error, refetch } = useApi<FactoringRequest[]>(API_ENDPOINTS.FACTORING)
 
@@ -42,6 +51,28 @@ export const FactoringListPage: React.FC = () => {
       header: 'Monto Total',
       render: (value: number) => (
         <span className="font-semibold">{formatCurrency(value)}</span>
+      )
+    },
+    {
+      key: 'factoringType' as keyof FactoringRequest,
+      header: 'Tipo de Factoraje',
+      render: (value: string) => (
+        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+          value === 'ClientFactoring' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800'
+        }`}>
+          {value === 'ClientFactoring' ? 'Factoraje de Clientes' : 'Factoraje de Proveedores'}
+        </span>
+      )
+    },
+    {
+      key: 'resourceType' as keyof FactoringRequest,
+      header: 'Recurso',
+      render: (value: string) => (
+        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+          value === 'WithRecourse' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
+        }`}>
+          {value === 'WithRecourse' ? 'Con Recurso' : 'Sin Recurso'}
+        </span>
       )
     },
     {
@@ -78,12 +109,28 @@ export const FactoringListPage: React.FC = () => {
     {
       key: 'id' as keyof FactoringRequest,
       header: 'Acciones',
-      render: (value: number) => (
-        <Link to={`/factoring/${value}`}>
-          <Button variant="outline" size="sm" icon={<Eye className="w-4 h-4" />}>
-            Ver Detalles
-          </Button>
-        </Link>
+      render: (value: number, request: FactoringRequest) => (
+        <div className="flex space-x-2">
+          <Link to={`/factoring/${value}`}>
+            <Button variant="outline" size="sm" icon={<Eye className="w-4 h-4" />}>
+              Ver
+            </Button>
+          </Link>
+          {request.status === 'InProcess' && (
+            <Button 
+              variant="outline" 
+              size="sm" 
+              icon={<Building className="w-4 h-4" />}
+              onClick={() => {
+                setSelectedRequestId(value)
+                setSelectedAmount(request.totalAmount)
+                setShowFinancialQuote(true)
+              }}
+            >
+              Cotizar
+            </Button>
+          )}
+        </div>
       )
     }
   ]
@@ -123,14 +170,31 @@ export const FactoringListPage: React.FC = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Solicitudes de Factoraje</h1>
-          <p className="text-gray-600">Gestiona tus solicitudes de factoraje y su estatus</p>
+          <h1 className="text-2xl font-bold text-gray-900">
+            {user?.factoringConfig?.factoringType === 'ClientFactoring' 
+              ? 'Factoraje de Clientes' 
+              : 'Factoraje de Proveedores'
+            }
+          </h1>
+          <p className="text-gray-600">
+            {user?.factoringConfig?.factoringType === 'ClientFactoring'
+              ? 'Gestiona el factoraje de facturas emitidas a clientes'
+              : 'Gestiona el factoraje de facturas recibidas de proveedores'
+            }
+          </p>
         </div>
-        <Link to="/factoring/create">
-          <Button icon={<Plus className="w-4 h-4" />}>
-            Nueva Solicitud
-          </Button>
-        </Link>
+        <div className="flex space-x-3">
+          <Link to="/invoices/upload">
+            <Button variant="outline" icon={<Upload className="w-4 h-4" />}>
+              Cargar Facturas
+            </Button>
+          </Link>
+          <Link to="/factoring/create">
+            <Button icon={<Plus className="w-4 h-4" />}>
+              Nueva Solicitud
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Stats Cards */}
@@ -201,6 +265,19 @@ export const FactoringListPage: React.FC = () => {
           columns={columns}
         />
       </Card>
+
+      {/* Financial Quote Modal */}
+      <FinancialQuoteModal
+        isOpen={showFinancialQuote}
+        onClose={() => setShowFinancialQuote(false)}
+        factoringRequestId={selectedRequestId || 0}
+        totalAmount={selectedAmount}
+        onQuoteCreated={(quote) => {
+          console.log('Financial quote created:', quote)
+          // Here you would typically update the request with the quote
+          refetch()
+        }}
+      />
     </div>
   )
 }

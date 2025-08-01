@@ -40,6 +40,8 @@ start_mf "Factoring MF" 3004 "factoring-mf"
 sleep 2
 start_mf "Support MF" 3005 "support-mf"
 sleep 2
+start_mf "Config MF" 3006 "config-mf"
+sleep 2
 start_mf "Shell App" 3000 "shell-app"
 
 echo ""
@@ -52,6 +54,7 @@ echo "   📊 Dashboard MF:  http://localhost:3002"
 echo "   📄 Invoices MF:   http://localhost:3003"
 echo "   💰 Factoring MF:  http://localhost:3004"
 echo "   🎫 Support MF:    http://localhost:3005"
+echo "   ⚙️  Config MF:     http://localhost:3006"
 echo ""
 echo "🔑 Default login credentials:"
 echo "   Username: admin"
