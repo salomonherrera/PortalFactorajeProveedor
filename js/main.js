@@ -692,4 +692,4 @@ function updatePageTitlesBasedOnUserType(userType) {
                 : 'Gestiona las facturas que recibes de tus proveedores';
         }
     }
-});
+}
