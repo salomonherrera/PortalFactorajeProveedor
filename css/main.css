@@ -525,6 +525,196 @@ body {
 .bg-danger { background-color: #ef4444 !important; }
 .bg-info { background-color: #06b6d4 !important; }
 
+/* Gradientes modernos */
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%) !important;
+}
+
+.bg-gradient-success {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%) !important;
+}
+
+.bg-gradient-warning {
+    background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%) !important;
+}
+
+.bg-gradient-info {
+    background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%) !important;
+}
+
+/* Upload zones */
+.upload-zone {
+    border: 3px dashed #dee2e6;
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.upload-zone:hover,
+.upload-zone.drag-over {
+    border-color: #3b82f6;
+    background-color: #f8fafc;
+    transform: translateY(-2px);
+}
+
+.upload-zone.pdf-zone:hover,
+.upload-zone.pdf-zone.drag-over {
+    border-color: #dc3545;
+    background-color: #fdf2f2;
+}
+
+.upload-zone.xml-zone:hover,
+.upload-zone.xml-zone.drag-over {
+    border-color: #198754;
+    background-color: #f0f9f4;
+}
+
+.upload-content,
+.upload-success {
+    width: 100%;
+}
+
+.upload-success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Upload steps */
+.upload-step {
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Invoice grid para cotizador */
+.invoice-grid {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.invoice-grid-item {
+    padding: 12px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.invoice-grid-item:hover {
+    border-color: #3b82f6;
+    background-color: #f8fafc;
+    transform: translateX(5px);
+}
+
+.invoice-grid-item.selected {
+    border-color: #3b82f6;
+    background-color: #eff6ff;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+/* Invoice cards */
+.invoice-card {
+    transition: all 0.3s ease;
+    border: 1px solid #e9ecef;
+}
+
+.invoice-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    border-color: #3b82f6;
+}
+
+/* Form ranges mejorados */
+.form-range {
+    height: 8px;
+}
+
+.form-range::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+    background: #3b82f6;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.form-range::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #3b82f6;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Mejoras en KPI cards */
+.kpi-card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.kpi-card .card-body {
+    padding: 1.5rem;
+}
+
+/* Botones mejorados */
+.btn-lg {
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 10px;
+}
+
+/* Form floating mejorado */
+.form-floating > .form-control,
+.form-floating > .form-select {
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+}
+
+.form-floating > .form-control:focus,
+.form-floating > .form-select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.15);
+}
+
+/* Animaciones */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.upload-step {
+    animation: slideInUp 0.5s ease-out;
+}
+
+/* Progress bar mejorado */
+.progress {
+    height: 12px;
+    border-radius: 10px;
+    background-color: #e9ecef;
+}
+
+.progress-bar {
+    border-radius: 10px;
+}
+
 /* Loading Spinner */
 .loading-spinner {
     position: fixed;

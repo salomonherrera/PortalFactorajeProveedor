@@ -90,56 +90,38 @@
             <!-- Main Content Area -->
             <div class="main-content">
                 <div class="container-fluid">
-                    <div class="row">
+                    <!-- Header -->
+                    <div class="row mb-4">
                         <div class="col-12">
-                            <div class="page-header">
-                                <h1>Solicitudes de Factoraje</h1>
-                                <p>Facturas seleccionadas para envío a factoraje</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h1 class="h2 mb-1">Solicitudes de Factoraje</h1>
+                                    <p class="text-muted mb-0">Cotiza y gestiona tus solicitudes de factoraje</p>
+                                </div>
+                                <button class="btn btn-primary btn-lg" onclick="showQuotationModal()">
+                                    <i class="fas fa-calculator me-2"></i>
+                                    Cotizador Inteligente
+                                </button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Actions -->
-                    <div class="row mb-3">
-                        <div class="col-12">
-                            <button class="btn btn-info me-2" onclick="showAdvancedQuotationModal()">
-                                <i class="fas fa-calculator"></i> Cotizador Avanzado
-                            </button>
-                            <button class="btn btn-primary" onclick="submitRequest()">
-                                <i class="fas fa-paper-plane"></i> Enviar Solicitud
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Table -->
+                    <!-- Facturas disponibles -->
                     <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="fas fa-file-invoice me-2 text-primary"></i>
+                                Facturas Disponibles para Factoraje
+                            </h5>
+                        </div>
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped" id="solicitudesTable">
-                                    <thead>
-                                        <tr>
-                                            <th>Folio</th>
-                                            <th>Cliente</th>
-                                            <th>Monto</th>
-                                            <th>Fecha Emisión</th>
-                                            <th>Días de Pago</th>
-                                            <th>Cedente</th>
-                                            <th>Pagador</th>
-                                            <th>Tipo</th>
-                                            <th>Recurso</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="solicitudesTableBody">
-                                    </tbody>
-                                </table>
-                            </div>
+                            <div id="availableInvoices"></div>
                             <div id="emptyState" class="text-center py-5" style="display: none;">
-                                <i class="fas fa-file-invoice fa-3x text-muted mb-3"></i>
-                                <h5 class="text-muted">No hay facturas seleccionadas</h5>
-                                <p class="text-muted">Selecciona facturas desde la sección "Mis Facturas" para enviarlas a factoraje</p>
+                                <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                                <h5 class="text-muted">No hay facturas para factoraje</h5>
+                                <p class="text-muted">Envía facturas desde "Mis Facturas" para poder cotizarlas aquí</p>
                                 <a href="facturas.html" class="btn btn-primary">
-                                    <i class="fas fa-file-invoice"></i> Ir a Mis Facturas
+                                    <i class="fas fa-file-invoice me-2"></i>Ir a Mis Facturas
                                 </a>
                             </div>
                         </div>
@@ -149,41 +131,53 @@
         </div>
     </div>
 
-    <!-- Advanced Quotation Modal -->
-    <div class="modal fade" id="advancedQuotationModal" tabindex="-1">
+    <!-- Modal del Cotizador Inteligente -->
+    <div class="modal fade" id="quotationModal" tabindex="-1">
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content">
                 <div class="modal-header bg-gradient-primary text-white">
                     <h5 class="modal-title">
                         <i class="fas fa-calculator me-2"></i>
-                        Cotizador Avanzado de Factoraje
+                        Cotizador Inteligente de Factoraje
                     </h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <!-- Left Panel - Invoice Selection -->
-                        <div class="col-md-4">
+                <div class="modal-body p-4">
+                    <div class="row h-100">
+                        <!-- Panel Izquierdo - Selección de Facturas -->
+                        <div class="col-lg-4">
                             <div class="card h-100">
-                                <div class="card-header bg-primary text-white">
-                                    <h6 class="mb-0"><i class="fas fa-list-check me-2"></i>Seleccionar Facturas</h6>
+                                <div class="card-header bg-info text-white">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-list-check me-2"></i>
+                                        Seleccionar Facturas
+                                    </h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="mb-3">
-                                        <input type="text" id="searchInvoices" class="form-control" placeholder="Buscar facturas...">
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                            <input type="text" class="form-control" id="searchQuoteInvoices" placeholder="Buscar facturas...">
+                                        </div>
                                     </div>
-                                    <div id="invoiceSelectionGrid" style="max-height: 400px; overflow-y: auto;">
-                                        <!-- Invoice grid will be populated here -->
+                                    
+                                    <div id="invoiceGrid" class="invoice-grid">
+                                        <!-- Grid de facturas se carga aquí -->
                                     </div>
-                                    <div class="mt-3 p-3 bg-light rounded">
-                                        <div class="row text-center">
-                                            <div class="col-6">
-                                                <h6 class="text-primary mb-0" id="selectedInvoicesCount">0</h6>
-                                                <small class="text-muted">Facturas</small>
-                                            </div>
-                                            <div class="col-6">
-                                                <h6 class="text-success mb-0" id="selectedInvoicesTotal">$0</h6>
-                                                <small class="text-muted">Total</small>
+                                    
+                                    <div class="mt-3">
+                                        <div class="card bg-light">
+                                            <div class="card-body text-center">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <h4 class="text-primary mb-0" id="selectedQuoteCount">0</h4>
+                                                        <small class="text-muted">Facturas</small>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <h4 class="text-success mb-0" id="selectedQuoteTotal">$0</h4>
+                                                        <small class="text-muted">Total</small>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -191,122 +185,191 @@
                             </div>
                         </div>
 
-                        <!-- Center Panel - Quotation Parameters -->
-                        <div class="col-md-4">
-                            <div class="card h-100">
-                                <div class="card-header bg-success text-white">
-                                    <h6 class="mb-0"><i class="fas fa-sliders-h me-2"></i>Parámetros de Cotización</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="mb-3">
-                                        <label class="form-label">Plazo (días)</label>
-                                        <input type="number" id="quotePlazo" class="form-control" value="30" oninput="calculateAdvancedQuotation()">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">% Adelanto</label>
-                                        <input type="number" id="quoteAdelanto" class="form-control" value="80" step="0.1" oninput="calculateAdvancedQuotation()">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">% Retención</label>
-                                        <input type="number" id="quoteRetencion" class="form-control" value="15" step="0.1" oninput="calculateAdvancedQuotation()">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">Tasa Anual (%)</label>
-                                        <input type="number" id="quoteTasa" class="form-control" value="24" step="0.1" oninput="calculateAdvancedQuotation()">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">% Comisión</label>
-                                        <input type="number" id="quoteComision" class="form-control" value="3" step="0.1" oninput="calculateAdvancedQuotation()">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">Cedente</label>
-                                        <select id="quoteCedente" class="form-select">
-                                            <option value="Servicios Demo S.A.">Servicios Demo S.A.</option>
-                                            <option value="Nestlé México">Nestlé México</option>
-                                            <option value="Coca Cola">Coca Cola</option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">Pagador</label>
-                                        <select id="quotePagador" class="form-select">
-                                            <option value="Servicios Demo S.A.">Servicios Demo S.A.</option>
-                                            <option value="Nestlé México">Nestlé México</option>
-                                            <option value="Coca Cola">Coca Cola</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Right Panel - Results and Payment Schedule -->
-                        <div class="col-md-4">
+                        <!-- Panel Central - Parámetros -->
+                        <div class="col-lg-4">
                             <div class="card h-100">
                                 <div class="card-header bg-warning text-dark">
-                                    <h6 class="mb-0"><i class="fas fa-chart-line me-2"></i>Resumen de Cotización</h6>
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-sliders-h me-2"></i>
+                                        Parámetros de Cotización
+                                    </h6>
                                 </div>
                                 <div class="card-body">
-                                    <div id="quotationSummary">
-                                        <div class="row mb-3">
-                                            <div class="col-12">
-                                                <div class="bg-primary text-white p-3 rounded text-center">
-                                                    <h4 class="mb-0" id="summaryTotal">$0</h4>
-                                                    <small>Monto Total</small>
-                                                </div>
+                                    <div class="row">
+                                        <div class="col-12 mb-3">
+                                            <label class="form-label">Plazo (días)</label>
+                                            <input type="range" class="form-range" id="plazoRange" min="15" max="90" value="30" oninput="updateQuotation()">
+                                            <div class="d-flex justify-content-between">
+                                                <small>15 días</small>
+                                                <strong id="plazoValue">30 días</strong>
+                                                <small>90 días</small>
                                             </div>
                                         </div>
-                                        <div class="row mb-3">
-                                            <div class="col-6">
-                                                <div class="bg-success text-white p-2 rounded text-center">
-                                                    <h6 class="mb-0" id="summaryAdelanto">$0</h6>
-                                                    <small>Adelanto</small>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="bg-warning text-dark p-2 rounded text-center">
-                                                    <h6 class="mb-0" id="summaryRetencion">$0</h6>
-                                                    <small>Retención</small>
-                                                </div>
+                                        
+                                        <div class="col-12 mb-3">
+                                            <label class="form-label">% Adelanto</label>
+                                            <input type="range" class="form-range" id="adelantoRange" min="50" max="95" value="80" oninput="updateQuotation()">
+                                            <div class="d-flex justify-content-between">
+                                                <small>50%</small>
+                                                <strong id="adelantoValue">80%</strong>
+                                                <small>95%</small>
                                             </div>
                                         </div>
-                                        <div class="row mb-3">
-                                            <div class="col-6">
-                                                <div class="bg-danger text-white p-2 rounded text-center">
-                                                    <h6 class="mb-0" id="summaryComision">$0</h6>
-                                                    <small>Comisión</small>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="bg-info text-white p-2 rounded text-center">
-                                                    <h6 class="mb-0" id="summaryCAT">0%</h6>
-                                                    <small>CAT</small>
-                                                </div>
+                                        
+                                        <div class="col-12 mb-3">
+                                            <label class="form-label">% Retención</label>
+                                            <input type="range" class="form-range" id="retencionRange" min="5" max="25" value="15" oninput="updateQuotation()">
+                                            <div class="d-flex justify-content-between">
+                                                <small>5%</small>
+                                                <strong id="retencionValue">15%</strong>
+                                                <small>25%</small>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="bg-dark text-white p-3 rounded text-center">
-                                                    <h4 class="mb-0" id="summaryNeto">$0</h4>
-                                                    <small>Neto a Recibir</small>
-                                                </div>
+                                        
+                                        <div class="col-12 mb-3">
+                                            <label class="form-label">Tasa Anual (%)</label>
+                                            <input type="range" class="form-range" id="tasaRange" min="12" max="36" value="24" step="0.5" oninput="updateQuotation()">
+                                            <div class="d-flex justify-content-between">
+                                                <small>12%</small>
+                                                <strong id="tasaValue">24%</strong>
+                                                <small>36%</small>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-12 mb-3">
+                                            <label class="form-label">% Comisión</label>
+                                            <input type="range" class="form-range" id="comisionRange" min="1" max="8" value="3" step="0.1" oninput="updateQuotation()">
+                                            <div class="d-flex justify-content-between">
+                                                <small>1%</small>
+                                                <strong id="comisionValue">3%</strong>
+                                                <small>8%</small>
                                             </div>
                                         </div>
                                     </div>
 
                                     <hr>
 
-                                    <h6><i class="fas fa-calendar-alt me-2"></i>Tabla de Pagos</h6>
-                                    <div class="table-responsive">
-                                        <table class="table table-sm">
-                                            <thead>
-                                                <tr>
-                                                    <th>Pago</th>
-                                                    <th>Fecha</th>
-                                                    <th>Monto</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="paymentScheduleTable">
-                                            </tbody>
-                                        </table>
+                                    <div class="row">
+                                        <div class="col-12 mb-3">
+                                            <label class="form-label">Cedente</label>
+                                            <select class="form-select" id="cedenteSelect">
+                                                <option value="Servicios Demo S.A.">Servicios Demo S.A.</option>
+                                                <option value="Nestlé México">Nestlé México</option>
+                                                <option value="Coca Cola">Coca Cola</option>
+                                                <option value="Walmart">Walmart</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 mb-3">
+                                            <label class="form-label">Pagador</label>
+                                            <select class="form-select" id="pagadorSelect">
+                                                <option value="Servicios Demo S.A.">Servicios Demo S.A.</option>
+                                                <option value="Nestlé México">Nestlé México</option>
+                                                <option value="Coca Cola">Coca Cola</option>
+                                                <option value="Walmart">Walmart</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Panel Derecho - Resultados -->
+                        <div class="col-lg-4">
+                            <div class="card h-100">
+                                <div class="card-header bg-success text-white">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-chart-line me-2"></i>
+                                        Resumen de Cotización
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Monto Total -->
+                                    <div class="text-center mb-4">
+                                        <div class="bg-primary text-white p-3 rounded-3">
+                                            <h3 class="mb-0" id="quoteTotalAmount">$0</h3>
+                                            <small>Monto Total Facturas</small>
+                                        </div>
+                                    </div>
+
+                                    <!-- Cálculos -->
+                                    <div class="row g-2 mb-4">
+                                        <div class="col-6">
+                                            <div class="bg-success text-white p-2 rounded text-center">
+                                                <h5 class="mb-0" id="quoteAdvance">$0</h5>
+                                                <small>Adelanto</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="bg-warning text-dark p-2 rounded text-center">
+                                                <h5 class="mb-0" id="quoteRetention">$0</h5>
+                                                <small>Retención</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="bg-danger text-white p-2 rounded text-center">
+                                                <h5 class="mb-0" id="quoteCommission">$0</h5>
+                                                <small>Comisión</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="bg-info text-white p-2 rounded text-center">
+                                                <h5 class="mb-0" id="quoteCAT">0%</h5>
+                                                <small>CAT</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Neto a Recibir -->
+                                    <div class="text-center mb-4">
+                                        <div class="bg-dark text-white p-3 rounded-3">
+                                            <h3 class="mb-0" id="quoteNetAmount">$0</h3>
+                                            <small>Neto a Recibir</small>
+                                        </div>
+                                    </div>
+
+                                    <!-- Tabla de Pagos -->
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h6 class="mb-0">
+                                                <i class="fas fa-calendar-alt me-2"></i>
+                                                Cronograma de Pagos
+                                            </h6>
+                                        </div>
+                                        <div class="card-body p-0">
+                                            <div class="table-responsive">
+                                                <table class="table table-sm mb-0">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th>Pago</th>
+                                                            <th>Fecha</th>
+                                                            <th>Monto</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="paymentSchedule">
+                                                        <!-- Cronograma se genera aquí -->
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Análisis de Riesgo -->
+                                    <div class="mt-3">
+                                        <div class="card border-0 bg-light">
+                                            <div class="card-body p-3">
+                                                <h6 class="mb-2">
+                                                    <i class="fas fa-shield-alt me-2 text-success"></i>
+                                                    Análisis de Riesgo
+                                                </h6>
+                                                <div class="d-flex justify-content-between">
+                                                    <span>Calificación:</span>
+                                                    <span class="badge bg-success" id="riskRating">Bajo Riesgo</span>
+                                                </div>
+                                                <div class="progress mt-2" style="height: 8px;">
+                                                    <div class="progress-bar bg-success" id="riskBar" style="width: 85%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -315,10 +378,10 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-danger" onclick="downloadQuotationPDF()">
+                    <button type="button" class="btn btn-danger" onclick="downloadPDF()">
                         <i class="fas fa-file-pdf me-2"></i>Descargar PDF
                     </button>
-                    <button type="button" class="btn btn-primary" onclick="applyAdvancedQuotation()">
+                    <button type="button" class="btn btn-success" onclick="applyQuotation()">
                         <i class="fas fa-check me-2"></i>Aplicar Cotización
                     </button>
                 </div>
@@ -329,97 +392,89 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/main.js"></script>
     <script>
-        // Available invoices for factoring (from localStorage or default)
-        let availableInvoices = [
-            {id: 1, folio: 'F001', cliente: 'Nestlé México', monto: 125000, fechaEmision: '2024-01-15', fechaVencimiento: '2024-02-15', estatus: 'Emitida', tipoOperacion: 'Proveedor', recurso: 'Con Recurso', cedente: 'Servicios Demo S.A.', pagador: 'Nestlé México'},
-            {id: 3, folio: 'F003', cliente: 'Walmart', monto: 245000, fechaEmision: '2024-01-17', fechaVencimiento: '2024-02-17', estatus: 'Emitida', tipoOperacion: 'Proveedor', recurso: 'Con Recurso', cedente: 'Servicios Demo S.A.', pagador: 'Walmart'},
-            {id: 5, folio: 'F005', cliente: 'Liverpool', monto: 156000, fechaEmision: '2024-01-19', fechaVencimiento: '2024-02-19', estatus: 'Emitida', tipoOperacion: 'Proveedor', recurso: 'Con Recurso', cedente: 'Servicios Demo S.A.', pagador: 'Liverpool'},
-            {id: 7, folio: 'F007', cliente: 'Chedraui', monto: 123000, fechaEmision: '2024-01-21', fechaVencimiento: '2024-02-21', estatus: 'Emitida', tipoOperacion: 'Proveedor', recurso: 'Con Recurso', cedente: 'Servicios Demo S.A.', pagador: 'Chedraui'},
-            {id: 8, folio: 'F008', cliente: 'Oxxo', monto: 45000, fechaEmision: '2024-01-22', fechaVencimiento: '2024-02-22', estatus: 'Emitida', tipoOperacion: 'Cliente', recurso: 'Sin Recurso', cedente: 'Oxxo', pagador: 'Servicios Demo S.A.'},
-            {id: 10, folio: 'F010', cliente: 'Farmacias Guadalajara', monto: 89000, fechaEmision: '2024-01-24', fechaVencimiento: '2024-02-24', estatus: 'Emitida', tipoOperacion: 'Cliente', recurso: 'Sin Recurso', cedente: 'Farmacias Guadalajara', pagador: 'Servicios Demo S.A.'}
-        ];
+        let availableInvoices = [];
+        let selectedForQuote = [];
+        let currentQuotation = {};
 
-        let selectedInvoicesForQuote = [];
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAvailableInvoices();
+        });
 
-        function calculateDaysToPayment(fechaVencimiento) {
-            const today = new Date();
-            const dueDate = new Date(fechaVencimiento);
-            const diffTime = dueDate - today;
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            return diffDays;
-        }
-
-        function loadSelectedInvoices() {
-            const selectedIds = JSON.parse(localStorage.getItem('selectedInvoices') || '[]');
-            const tbody = document.getElementById('solicitudesTableBody');
+        function loadAvailableInvoices() {
+            const stored = localStorage.getItem('facturasParaFactoraje');
+            availableInvoices = stored ? JSON.parse(stored) : [];
+            
+            const container = document.getElementById('availableInvoices');
             const emptyState = document.getElementById('emptyState');
             
-            tbody.innerHTML = '';
-            
-            if (selectedIds.length === 0) {
+            if (availableInvoices.length === 0) {
+                container.style.display = 'none';
                 emptyState.style.display = 'block';
                 return;
             }
             
+            container.style.display = 'block';
             emptyState.style.display = 'none';
             
-            selectedIds.forEach(id => {
-                const factura = availableInvoices.find(f => f.id == id);
-                if (factura) {
-                    const row = document.createElement('tr');
-                    const diasPago = calculateDaysToPayment(factura.fechaVencimiento);
-                    
-                    row.innerHTML = `
-                        <td>${factura.folio}</td>
-                        <td>${factura.cliente}</td>
-                        <td>$${factura.monto.toLocaleString()}</td>
-                        <td>${factura.fechaEmision}</td>
-                        <td>
-                            <span class="badge ${diasPago < 0 ? 'bg-danger' : diasPago < 7 ? 'bg-warning' : 'bg-success'}">
-                                ${diasPago} días
-                            </span>
-                        </td>
-                        <td>${factura.cedente}</td>
-                        <td>${factura.pagador}</td>
-                        <td><span class="badge ${factura.tipoOperacion === 'Proveedor' ? 'bg-primary' : 'bg-info'}">${factura.tipoOperacion}</span></td>
-                        <td><span class="badge ${factura.recurso === 'Con Recurso' ? 'bg-warning' : 'bg-success'}">${factura.recurso}</span></td>
-                        <td>
-                            <button class="btn btn-sm btn-danger" onclick="removeFromRequest(${factura.id})">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                    `;
-                    tbody.appendChild(row);
-                }
+            let html = '<div class="row">';
+            availableInvoices.forEach(invoice => {
+                html += `
+                    <div class="col-md-6 col-lg-4 mb-3">
+                        <div class="card invoice-card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h6 class="card-title mb-0">${invoice.folio}</h6>
+                                    <span class="badge ${getStatusBadge(invoice.estatus)}">${invoice.estatus}</span>
+                                </div>
+                                <p class="card-text text-muted mb-2">${invoice.cliente}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="h5 text-success mb-0">$${invoice.monto.toLocaleString()}</span>
+                                    <small class="text-muted">${formatDate(invoice.fechaVencimiento)}</small>
+                                </div>
+                                <div class="mt-2">
+                                    <span class="badge ${invoice.tipoOperacion === 'Proveedor' ? 'bg-info' : 'bg-warning'} me-1">${invoice.tipoOperacion}</span>
+                                    <span class="badge ${invoice.recurso === 'Con Recurso' ? 'bg-danger' : 'bg-success'}">${invoice.recurso}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
             });
+            html += '</div>';
+            container.innerHTML = html;
         }
 
-        function showAdvancedQuotationModal() {
-            populateInvoiceGrid();
-            const modal = new bootstrap.Modal(document.getElementById('advancedQuotationModal'));
+        function showQuotationModal() {
+            if (availableInvoices.length === 0) {
+                showAlert('No hay facturas disponibles para cotizar. Envía facturas desde "Mis Facturas" primero.', 'warning');
+                return;
+            }
+            
+            loadInvoiceGrid();
+            const modal = new bootstrap.Modal(document.getElementById('quotationModal'));
             modal.show();
         }
 
-        function populateInvoiceGrid() {
-            const grid = document.getElementById('invoiceSelectionGrid');
+        function loadInvoiceGrid() {
+            const grid = document.getElementById('invoiceGrid');
             grid.innerHTML = '';
 
             availableInvoices.forEach(invoice => {
-                const isSelected = selectedInvoicesForQuote.includes(invoice.id);
+                const isSelected = selectedForQuote.includes(invoice.id);
                 const card = document.createElement('div');
-                card.className = `card mb-2 cursor-pointer ${isSelected ? 'border-primary bg-primary bg-opacity-10' : ''}`;
+                card.className = `invoice-grid-item ${isSelected ? 'selected' : ''}`;
                 card.onclick = () => toggleInvoiceSelection(invoice.id);
                 
                 card.innerHTML = `
-                    <div class="card-body p-2">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h6 class="mb-0">${invoice.folio}</h6>
-                                <small class="text-muted">${invoice.cliente}</small>
-                            </div>
-                            <div class="text-end">
-                                <div class="fw-bold">$${invoice.monto.toLocaleString()}</div>
-                                <input type="checkbox" ${isSelected ? 'checked' : ''} onclick="event.stopPropagation()">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="fw-bold">${invoice.folio}</div>
+                            <div class="text-muted small">${invoice.cliente}</div>
+                        </div>
+                        <div class="text-end">
+                            <div class="fw-bold text-success">$${invoice.monto.toLocaleString()}</div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" ${isSelected ? 'checked' : ''}>
                             </div>
                         </div>
                     </div>
@@ -430,110 +485,123 @@
         }
 
         function toggleInvoiceSelection(invoiceId) {
-            const index = selectedInvoicesForQuote.indexOf(invoiceId);
+            const index = selectedForQuote.indexOf(invoiceId);
             if (index > -1) {
-                selectedInvoicesForQuote.splice(index, 1);
+                selectedForQuote.splice(index, 1);
             } else {
-                selectedInvoicesForQuote.push(invoiceId);
+                selectedForQuote.push(invoiceId);
             }
-            populateInvoiceGrid();
-            updateSelectionSummary();
-            calculateAdvancedQuotation();
+            
+            loadInvoiceGrid();
+            updateQuoteSelection();
+            updateQuotation();
         }
 
-        function updateSelectionSummary() {
-            const count = selectedInvoicesForQuote.length;
-            const total = selectedInvoicesForQuote.reduce((sum, id) => {
+        function updateQuoteSelection() {
+            const count = selectedForQuote.length;
+            const total = selectedForQuote.reduce((sum, id) => {
                 const invoice = availableInvoices.find(inv => inv.id === id);
                 return sum + (invoice ? invoice.monto : 0);
             }, 0);
 
-            document.getElementById('selectedInvoicesCount').textContent = count;
-            document.getElementById('selectedInvoicesTotal').textContent = `$${total.toLocaleString()}`;
+            document.getElementById('selectedQuoteCount').textContent = count;
+            document.getElementById('selectedQuoteTotal').textContent = `$${total.toLocaleString()}`;
         }
 
-        function calculateAdvancedQuotation() {
-            const totalAmount = selectedInvoicesForQuote.reduce((sum, id) => {
+        function updateQuotation() {
+            // Actualizar valores de los sliders
+            const plazo = document.getElementById('plazoRange').value;
+            const adelanto = document.getElementById('adelantoRange').value;
+            const retencion = document.getElementById('retencionRange').value;
+            const tasa = document.getElementById('tasaRange').value;
+            const comision = document.getElementById('comisionRange').value;
+
+            document.getElementById('plazoValue').textContent = `${plazo} días`;
+            document.getElementById('adelantoValue').textContent = `${adelanto}%`;
+            document.getElementById('retencionValue').textContent = `${retencion}%`;
+            document.getElementById('tasaValue').textContent = `${tasa}%`;
+            document.getElementById('comisionValue').textContent = `${comision}%`;
+
+            // Calcular totales
+            const totalAmount = selectedForQuote.reduce((sum, id) => {
                 const invoice = availableInvoices.find(inv => inv.id === id);
                 return sum + (invoice ? invoice.monto : 0);
             }, 0);
 
             if (totalAmount === 0) {
-                // Reset all values
-                document.getElementById('summaryTotal').textContent = '$0';
-                document.getElementById('summaryAdelanto').textContent = '$0';
-                document.getElementById('summaryRetencion').textContent = '$0';
-                document.getElementById('summaryComision').textContent = '$0';
-                document.getElementById('summaryNeto').textContent = '$0';
-                document.getElementById('summaryCAT').textContent = '0%';
-                document.getElementById('paymentScheduleTable').innerHTML = '';
+                resetQuotationDisplay();
                 return;
             }
 
-            const plazo = parseFloat(document.getElementById('quotePlazo').value) || 30;
-            const adelanto = parseFloat(document.getElementById('quoteAdelanto').value) || 80;
-            const retencion = parseFloat(document.getElementById('quoteRetencion').value) || 15;
-            const tasa = parseFloat(document.getElementById('quoteTasa').value) || 24;
-            const comision = parseFloat(document.getElementById('quoteComision').value) || 3;
+            const advanceAmount = totalAmount * (adelanto / 100);
+            const retentionAmount = totalAmount * (retencion / 100);
+            const commissionAmount = totalAmount * (comision / 100);
+            const netAmount = advanceAmount - commissionAmount;
 
-            const montoAdelanto = totalAmount * (adelanto / 100);
-            const montoRetencion = totalAmount * (retencion / 100);
-            const montoComision = totalAmount * (comision / 100);
-            const netoRecibido = montoAdelanto - montoComision;
+            // Calcular CAT
+            const monthlyRate = tasa / 100 / 12;
+            const cat = ((Math.pow(1 + monthlyRate, 12) - 1) * 100) + parseFloat(comision);
 
-            // Cálculo del CAT
-            const tasaMensual = tasa / 100 / 12;
-            const periodos = plazo / 30;
-            const cat = ((Math.pow(1 + tasaMensual, 12) - 1) * 100) + comision;
+            // Actualizar display
+            document.getElementById('quoteTotalAmount').textContent = `$${totalAmount.toLocaleString()}`;
+            document.getElementById('quoteAdvance').textContent = `$${advanceAmount.toLocaleString()}`;
+            document.getElementById('quoteRetention').textContent = `$${retentionAmount.toLocaleString()}`;
+            document.getElementById('quoteCommission').textContent = `$${commissionAmount.toLocaleString()}`;
+            document.getElementById('quoteNetAmount').textContent = `$${netAmount.toLocaleString()}`;
+            document.getElementById('quoteCAT').textContent = `${cat.toFixed(2)}%`;
 
-            // Update summary
-            document.getElementById('summaryTotal').textContent = `$${totalAmount.toLocaleString()}`;
-            document.getElementById('summaryAdelanto').textContent = `$${montoAdelanto.toLocaleString()}`;
-            document.getElementById('summaryRetencion').textContent = `$${montoRetencion.toLocaleString()}`;
-            document.getElementById('summaryComision').textContent = `$${montoComision.toLocaleString()}`;
-            document.getElementById('summaryNeto').textContent = `$${netoRecibido.toLocaleString()}`;
-            document.getElementById('summaryCAT').textContent = `${cat.toFixed(2)}%`;
+            // Generar cronograma de pagos
+            generatePaymentSchedule(plazo, advanceAmount, retentionAmount);
 
-            // Generate payment schedule
-            const paymentTable = document.getElementById('paymentScheduleTable');
-            const fechaPago1 = new Date();
-            const fechaPago2 = new Date(Date.now() + plazo * 24 * 60 * 60 * 1000);
-
-            paymentTable.innerHTML = `
-                <tr>
-                    <td>1</td>
-                    <td>${fechaPago1.toLocaleDateString('es-MX')}</td>
-                    <td class="text-success fw-bold">$${montoAdelanto.toLocaleString()}</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>${fechaPago2.toLocaleDateString('es-MX')}</td>
-                    <td class="text-warning fw-bold">$${montoRetencion.toLocaleString()}</td>
-                </tr>
-            `;
-
-            // Store calculation for PDF generation
-            window.currentQuotation = {
+            // Guardar cotización actual
+            currentQuotation = {
                 totalAmount,
-                montoAdelanto,
-                montoRetencion,
-                montoComision,
-                netoRecibido,
+                advanceAmount,
+                retentionAmount,
+                commissionAmount,
+                netAmount,
                 cat: cat.toFixed(2),
                 plazo,
                 adelanto,
                 retencion,
                 tasa,
                 comision,
-                fechaPago1: fechaPago1.toLocaleDateString('es-MX'),
-                fechaPago2: fechaPago2.toLocaleDateString('es-MX'),
-                selectedInvoices: selectedInvoicesForQuote.map(id => availableInvoices.find(inv => inv.id === id)).filter(Boolean)
+                selectedInvoices: selectedForQuote.map(id => availableInvoices.find(inv => inv.id === id)).filter(Boolean)
             };
         }
 
-        function downloadQuotationPDF() {
-            if (!window.currentQuotation || selectedInvoicesForQuote.length === 0) {
-                showAlert('Debe seleccionar facturas y calcular la cotización primero', 'warning');
+        function generatePaymentSchedule(plazo, advanceAmount, retentionAmount) {
+            const tbody = document.getElementById('paymentSchedule');
+            const today = new Date();
+            const futureDate = new Date(today.getTime() + plazo * 24 * 60 * 60 * 1000);
+
+            tbody.innerHTML = `
+                <tr>
+                    <td><span class="badge bg-success">1</span></td>
+                    <td>${today.toLocaleDateString('es-MX')}</td>
+                    <td class="fw-bold text-success">$${advanceAmount.toLocaleString()}</td>
+                </tr>
+                <tr>
+                    <td><span class="badge bg-warning">2</span></td>
+                    <td>${futureDate.toLocaleDateString('es-MX')}</td>
+                    <td class="fw-bold text-warning">$${retentionAmount.toLocaleString()}</td>
+                </tr>
+            `;
+        }
+
+        function resetQuotationDisplay() {
+            document.getElementById('quoteTotalAmount').textContent = '$0';
+            document.getElementById('quoteAdvance').textContent = '$0';
+            document.getElementById('quoteRetention').textContent = '$0';
+            document.getElementById('quoteCommission').textContent = '$0';
+            document.getElementById('quoteNetAmount').textContent = '$0';
+            document.getElementById('quoteCAT').textContent = '0%';
+            document.getElementById('paymentSchedule').innerHTML = '';
+        }
+
+        function downloadPDF() {
+            if (selectedForQuote.length === 0) {
+                showAlert('Debe seleccionar facturas para generar el PDF', 'warning');
                 return;
             }
 
@@ -545,25 +613,27 @@
             doc.setTextColor(30, 58, 138);
             doc.text('TekProvider - Cotización de Factoraje', 20, 30);
 
+            // Información general
             doc.setFontSize(12);
             doc.setTextColor(0, 0, 0);
-            doc.text(`Fecha: ${new Date().toLocaleDateString('es-MX')}`, 20, 45);
-            doc.text(`Cotización No: COT-${Date.now().toString().slice(-6)}`, 20, 55);
+            doc.text(`Fecha: ${new Date().toLocaleDateString('es-MX')}`, 20, 50);
+            doc.text(`Cotización No: COT-${Date.now().toString().slice(-6)}`, 20, 60);
+            doc.text(`Cliente: Servicios Demo S.A.`, 20, 70);
 
-            // Invoice details
+            // Facturas incluidas
             doc.setFontSize(14);
             doc.setTextColor(30, 58, 138);
-            doc.text('Facturas Incluidas:', 20, 75);
+            doc.text('Facturas Incluidas:', 20, 90);
 
-            let yPos = 85;
-            window.currentQuotation.selectedInvoices.forEach((invoice, index) => {
+            let yPos = 100;
+            currentQuotation.selectedInvoices.forEach((invoice, index) => {
                 doc.setFontSize(10);
                 doc.setTextColor(0, 0, 0);
-                doc.text(`${invoice.folio} - ${invoice.cliente} - $${invoice.monto.toLocaleString()}`, 25, yPos);
-                yPos += 10;
+                doc.text(`${index + 1}. ${invoice.folio} - ${invoice.cliente} - $${invoice.monto.toLocaleString()}`, 25, yPos);
+                yPos += 8;
             });
 
-            // Financial summary
+            // Resumen financiero
             yPos += 10;
             doc.setFontSize(14);
             doc.setTextColor(30, 58, 138);
@@ -572,84 +642,82 @@
             yPos += 15;
             doc.setFontSize(12);
             doc.setTextColor(0, 0, 0);
-            doc.text(`Monto Total: $${window.currentQuotation.totalAmount.toLocaleString()}`, 25, yPos);
+            doc.text(`Monto Total: $${currentQuotation.totalAmount.toLocaleString()}`, 25, yPos);
             yPos += 10;
-            doc.text(`Adelanto (${window.currentQuotation.adelanto}%): $${window.currentQuotation.montoAdelanto.toLocaleString()}`, 25, yPos);
+            doc.text(`Plazo: ${currentQuotation.plazo} días`, 25, yPos);
             yPos += 10;
-            doc.text(`Retención (${window.currentQuotation.retencion}%): $${window.currentQuotation.montoRetencion.toLocaleString()}`, 25, yPos);
+            doc.text(`Adelanto (${currentQuotation.adelanto}%): $${currentQuotation.advanceAmount.toLocaleString()}`, 25, yPos);
             yPos += 10;
-            doc.text(`Comisión (${window.currentQuotation.comision}%): $${window.currentQuotation.montoComision.toLocaleString()}`, 25, yPos);
+            doc.text(`Retención (${currentQuotation.retencion}%): $${currentQuotation.retentionAmount.toLocaleString()}`, 25, yPos);
+            yPos += 10;
+            doc.text(`Comisión (${currentQuotation.comision}%): $${currentQuotation.commissionAmount.toLocaleString()}`, 25, yPos);
             yPos += 10;
             doc.setTextColor(0, 128, 0);
-            doc.text(`Neto a Recibir: $${window.currentQuotation.netoRecibido.toLocaleString()}`, 25, yPos);
+            doc.text(`Neto a Recibir: $${currentQuotation.netAmount.toLocaleString()}`, 25, yPos);
             yPos += 10;
             doc.setTextColor(255, 0, 0);
-            doc.text(`CAT: ${window.currentQuotation.cat}%`, 25, yPos);
+            doc.text(`CAT: ${currentQuotation.cat}%`, 25, yPos);
 
-            // Payment schedule
+            // Cronograma de pagos
             yPos += 20;
             doc.setFontSize(14);
             doc.setTextColor(30, 58, 138);
-            doc.text('Tabla de Pagos:', 20, yPos);
+            doc.text('Cronograma de Pagos:', 20, yPos);
 
             yPos += 15;
             doc.setFontSize(12);
             doc.setTextColor(0, 0, 0);
-            doc.text(`Pago 1 - ${window.currentQuotation.fechaPago1}: $${window.currentQuotation.montoAdelanto.toLocaleString()}`, 25, yPos);
+            const today = new Date();
+            const futureDate = new Date(today.getTime() + currentQuotation.plazo * 24 * 60 * 60 * 1000);
+            doc.text(`Pago 1 - ${today.toLocaleDateString('es-MX')}: $${currentQuotation.advanceAmount.toLocaleString()} (Adelanto)`, 25, yPos);
             yPos += 10;
-            doc.text(`Pago 2 - ${window.currentQuotation.fechaPago2}: $${window.currentQuotation.montoRetencion.toLocaleString()}`, 25, yPos);
+            doc.text(`Pago 2 - ${futureDate.toLocaleDateString('es-MX')}: $${currentQuotation.retentionAmount.toLocaleString()} (Retención)`, 25, yPos);
 
             // Footer
             yPos += 30;
             doc.setFontSize(10);
             doc.setTextColor(128, 128, 128);
-            doc.text('Este documento es una cotización preliminar sujeta a aprobación.', 20, yPos);
-            doc.text('TekProvider - Portal de Proveedores', 20, yPos + 10);
+            doc.text('Esta cotización es válida por 7 días hábiles.', 20, yPos);
+            doc.text('TekProvider - Portal de Proveedores | www.tekprovider.com', 20, yPos + 10);
 
             doc.save(`Cotizacion_Factoraje_${Date.now()}.pdf`);
             showAlert('PDF de cotización descargado exitosamente', 'success');
         }
 
-        function applyAdvancedQuotation() {
-            if (selectedInvoicesForQuote.length === 0) {
-                showAlert('Debe seleccionar al menos una factura', 'warning');
+        function applyQuotation() {
+            if (selectedForQuote.length === 0) {
+                showAlert('Debe seleccionar facturas para aplicar la cotización', 'warning');
                 return;
             }
 
-            showAlert('Cotización aplicada exitosamente', 'success');
-            const modal = bootstrap.Modal.getInstance(document.getElementById('advancedQuotationModal'));
+            // Simular envío de solicitud
+            const requestNumber = `REQ-${Date.now().toString().slice(-6)}`;
+            
+            // Limpiar facturas procesadas
+            availableInvoices = availableInvoices.filter(inv => !selectedForQuote.includes(inv.id));
+            localStorage.setItem('facturasParaFactoraje', JSON.stringify(availableInvoices));
+            
+            selectedForQuote = [];
+            loadAvailableInvoices();
+
+            const modal = bootstrap.Modal.getInstance(document.getElementById('quotationModal'));
             modal.hide();
+
+            showAlert(`Solicitud ${requestNumber} enviada exitosamente con ${currentQuotation.selectedInvoices.length} facturas`, 'success');
         }
 
-        function removeFromRequest(id) {
-            const selectedIds = JSON.parse(localStorage.getItem('selectedInvoices') || '[]');
-            const updatedIds = selectedIds.filter(selectedId => selectedId != id);
-            localStorage.setItem('selectedInvoices', JSON.stringify(updatedIds));
-            loadSelectedInvoices();
-        }
-
-        function submitRequest() {
-            const selectedIds = JSON.parse(localStorage.getItem('selectedInvoices') || '[]');
-            
-            if (selectedIds.length === 0) {
-                showAlert('No hay facturas seleccionadas para enviar a factoraje', 'warning');
-                return;
+        function getStatusBadge(status) {
+            switch(status) {
+                case 'Emitida': return 'bg-primary';
+                case 'Pagada': return 'bg-success';
+                case 'Vencida': return 'bg-danger';
+                default: return 'bg-secondary';
             }
-            
-            // Generate random request number
-            const requestNumber = 'REQ-' + Math.floor(Math.random() * 100000);
-            
-            showAlert(`Solicitud ${requestNumber} enviada exitosamente`, 'success');
-            
-            // Clear selected invoices
-            localStorage.removeItem('selectedInvoices');
-            loadSelectedInvoices();
         }
 
-        // Load data on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            loadSelectedInvoices();
-        });
+        function formatDate(dateString) {
+            return new Date(dateString).toLocaleDateString('es-MX');
+        }
     </script>
 </body>
 </html>
