@@ -33,7 +33,9 @@ if (!window.facturasEnFactoraje) {
 }
 
 // Variable para controlar el orden de las fechas
-var sortOrder = 'desc'; // 'desc' para más nueva a más antigua, 'asc' para más antigua a más nueva
+if (typeof sortOrder === 'undefined') {
+    var sortOrder = 'desc'; // 'desc' para más nueva a más antigua, 'asc' para más antigua a más nueva
+}
 
 function toggleSort() {
     sortOrder = sortOrder === 'desc' ? 'asc' : 'desc';
