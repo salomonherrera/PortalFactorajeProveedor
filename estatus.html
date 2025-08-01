@@ -117,6 +117,10 @@
                                             <th>ID Solicitud</th>
                                             <th>Fecha</th>
                                             <th>Facturas</th>
+                                            <th>Tipo Operación</th>
+                                            <th>Recurso</th>
+                                            <th>Cedente</th>
+                                            <th>Pagador</th>
                                             <th>Plazo</th>
                                             <th>% Adelanto</th>
                                             <th>% Retención</th>
@@ -126,6 +130,7 @@
                                             <th>Neto Recibido</th>
                                             <th>Estatus</th>
                                             <th>Fecha de Pago</th>
+                                            <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody id="estatusTableBody">
@@ -139,6 +144,69 @@
         </div>
     </div>
 
+    <!-- Financial Quote Modal -->
+    <div class="modal fade" id="financialQuoteModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-university me-2"></i>
+                        Cotización con Financiera
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="quote-section">
+                                <h6>Información de la Solicitud</h6>
+                                <div class="mb-3">
+                                    <label class="form-label">Institución Financiera</label>
+                                    <select class="form-select" id="quoteInstitution">
+                                        <option value="">Seleccionar...</option>
+                                        <option value="BBVA">BBVA México</option>
+                                        <option value="Santander">Santander</option>
+                                        <option value="Banorte">Banorte</option>
+                                        <option value="HSBC">HSBC</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Monto Total</label>
+                                    <input type="number" class="form-control" id="quoteAmount" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Plazo (días)</label>
+                                    <input type="number" class="form-control" id="quoteTerm" value="30" onchange="calculateFinancialQuote()">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Tasa de Interés Anual (%)</label>
+                                    <input type="number" class="form-control" id="quoteRate" value="24" step="0.1" onchange="calculateFinancialQuote()">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">% Comisión</label>
+                                    <input type="number" class="form-control" id="quoteCommission" value="3" step="0.1" onchange="calculateFinancialQuote()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="quote-section">
+                                <h6>Cálculos Financieros</h6>
+                                <div id="quoteResults">
+                                    <!-- Results will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="submitFinancialQuote()">
+                        <i class="fas fa-paper-plane me-2"></i>Enviar Cotización
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/main.js"></script>
     <script>

@@ -713,3 +713,47 @@ body {
     background-color: #e9ecef;
     color: #495057;
 }
+
+/* Upload Area Styles */
+.upload-area {
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.upload-area:hover,
+.upload-area.drag-over {
+    border-color: #0d6efd;
+    background-color: #f8f9fa;
+}
+
+/* Financial Quote Modal */
+.quote-section {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.quote-section h6 {
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+/* Responsive table improvements */
+@media (max-width: 768px) {
+    .table-responsive {
+        font-size: 0.8rem;
+    }
+    
+    .table th,
+    .table td {
+        padding: 0.5rem 0.25rem;
+        white-space: nowrap;
+    }
+    
+    .badge {
+        font-size: 0.6rem;
+        padding: 0.2rem 0.4rem;
+    }
+}

@@ -158,6 +158,7 @@
                                             </th>
                                             <th>Fecha Vencimiento</th>
                                             <th>Estatus</th>
+                                            <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody id="facturasTableBody">
@@ -203,6 +204,52 @@
                         <i class="fas fa-check-circle me-2"></i>
                         Las facturas han sido enviadas exitosamente a factoraje.
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Modal -->
+    <div class="modal fade" id="uploadModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-upload me-2"></i>
+                        Cargar Facturas
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="upload-area" id="uploadArea">
+                        <div class="text-center p-5">
+                            <i class="fas fa-cloud-upload-alt fa-3x text-primary mb-3"></i>
+                            <h5>Arrastra archivos aquí o haz click para seleccionar</h5>
+                            <p class="text-muted">Formatos soportados: PDF, XML, JPG, PNG (máximo 10MB)</p>
+                            <input type="file" id="fileInput" multiple accept=".pdf,.xml,.jpg,.jpeg,.png" style="display: none;">
+                            <button type="button" class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                                <i class="fas fa-file-plus me-2"></i>Seleccionar Archivos
+                            </button>
+                        </div>
+                    </div>
+                    <div id="uploadProgress" style="display: none;">
+                        <div class="mt-3">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                            </div>
+                            <p class="text-center mt-2">Procesando archivos...</p>
+                        </div>
+                    </div>
+                    <div id="uploadResults" style="display: none;">
+                        <h6 class="mt-3">Facturas Procesadas:</h6>
+                        <div id="processedInvoices"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-success" id="confirmUpload" style="display: none;" onclick="confirmUploadedInvoices()">
+                        <i class="fas fa-check me-2"></i>Confirmar Facturas
+                    </button>
                 </div>
             </div>
         </div>
