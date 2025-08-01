@@ -306,15 +306,15 @@
             new Chart(comparativeCtx, {
                 type: 'bar',
                 data: {
-                    labels: reportData.map(r => r.mes),
+                    labels: window.reportData.map(r => r.mes),
                     datasets: [{
                         label: 'Facturas',
-                        data: reportData.map(r => r.facturas),
+                        data: window.reportData.map(r => r.facturas),
                         backgroundColor: '#3b82f6',
                         yAxisID: 'y'
                     }, {
                         label: 'Anticipos (miles)',
-                        data: reportData.map(r => r.anticipos / 1000),
+                        data: window.reportData.map(r => r.anticipos / 1000),
                         backgroundColor: '#10b981',
                         yAxisID: 'y1'
                     }]

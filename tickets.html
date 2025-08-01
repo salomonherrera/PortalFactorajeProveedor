@@ -223,9 +223,11 @@
 
         function loadTickets() {
             const tickets = JSON.parse(localStorage.getItem('supportTickets') || '[]');
-            const allTickets = [...defaultTickets, ...tickets];
+            const allTickets = [...window.defaultTickets, ...tickets];
             
             const tbody = document.getElementById('ticketsTableBody');
+            if (!tbody) return;
+            
             tbody.innerHTML = '';
             
             allTickets.forEach(ticket => {

@@ -222,9 +222,11 @@
 
         function loadStatus() {
             const requests = JSON.parse(localStorage.getItem('factoringRequests') || '[]');
-            const allRequests = [...defaultRequests, ...requests];
+            const allRequests = [...window.defaultRequests, ...requests];
             
             const tbody = document.getElementById('estatusTableBody');
+            if (!tbody) return;
+            
             tbody.innerHTML = '';
             
             allRequests.forEach(request => {

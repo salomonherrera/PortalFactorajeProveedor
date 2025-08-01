@@ -323,5 +323,28 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/main.js"></script>
     <script src="js/charts.js"></script>
+    <script>
+        // Initialize dashboard data
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update KPIs with real data
+            if (window.facturas) {
+                const totalFacturas = window.facturas.length;
+                const montoTotal = window.facturas.reduce((sum, f) => sum + f.monto, 0);
+                const emitidas = window.facturas.filter(f => f.estatus === 'Emitida').length;
+                
+                // Update dashboard KPIs
+                const kpiElements = {
+                    totalFacturas: document.querySelector('.kpi-card:nth-child(1) h3'),
+                    montoTotal: document.querySelector('.kpi-card:nth-child(2) h3'),
+                    anticipos: document.querySelector('.kpi-card:nth-child(3) h3'),
+                    aprobacion: document.querySelector('.kpi-card:nth-child(4) h3')
+                };
+                
+                if (kpiElements.totalFacturas) kpiElements.totalFacturas.textContent = totalFacturas.toLocaleString();
+                if (kpiElements.montoTotal) kpiElements.montoTotal.textContent = `$${(montoTotal / 1000000).toFixed(1)}M`;
+                if (kpiElements.anticipos) kpiElements.anticipos.textContent = `$${((montoTotal * 0.75) / 1000000).toFixed(1)}M`;
+            }
+        });
+    </script>
 </body>
 </html>

@@ -42,6 +42,44 @@ function toggleSort() {
     loadFacturas();
 }
 
+// Load facturas on page load for facturas.html
+if (window.location.pathname.includes('facturas.html')) {
+    document.addEventListener('DOMContentLoaded', function() {
+        loadFacturas();
+        updateKPIs();
+    });
+}
+
+// Load available invoices for solicitudes.html
+if (window.location.pathname.includes('solicitudes.html')) {
+    document.addEventListener('DOMContentLoaded', function() {
+        loadAvailableInvoices();
+    });
+}
+
+function updateKPIs() {
+    if (!window.facturas) return;
+    
+    const total = window.facturas.length;
+    const emitidas = window.facturas.filter(f => f.estatus === 'Emitida').length;
+    const pagadas = window.facturas.filter(f => f.estatus === 'Pagada').length;
+    const vencidas = window.facturas.filter(f => f.estatus === 'Vencida').length;
+    const montoTotal = window.facturas.reduce((sum, f) => sum + f.monto, 0);
+    
+    // Update KPI cards if they exist
+    const totalFacturasEl = document.getElementById('totalFacturas');
+    const facturasEmitidasEl = document.getElementById('facturasEmitidas');
+    const facturasPagadasEl = document.getElementById('facturasPagadas');
+    const facturasVencidasEl = document.getElementById('facturasVencidas');
+    const montoTotalEl = document.getElementById('montoTotal');
+    
+    if (totalFacturasEl) totalFacturasEl.textContent = total;
+    if (facturasEmitidasEl) facturasEmitidasEl.textContent = emitidas;
+    if (facturasPagadasEl) facturasPagadasEl.textContent = pagadas;
+    if (facturasVencidasEl) facturasVencidasEl.textContent = vencidas;
+    if (montoTotalEl) montoTotalEl.textContent = `$${montoTotal.toLocaleString()}`;
+}
+
 // Check authentication on page load
 document.addEventListener('DOMContentLoaded', function() {
     if (localStorage.getItem('isLoggedIn') !== 'true') {
