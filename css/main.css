@@ -727,6 +727,113 @@ body {
     background-color: #f8f9fa;
 }
 
+/* Advanced Upload Styles */
+.upload-area {
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-area:hover,
+.upload-area.drag-over {
+    border-color: #0d6efd;
+    background-color: #f8f9fa;
+}
+
+/* Quotation Modal Styles */
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* Enhanced Card Hover Effects */
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+/* Payment Schedule Enhancements */
+#paymentScheduleTable td {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+}
+
+/* Quotation Summary Cards */
+.quotation-summary-card {
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.quotation-summary-card h4,
+.quotation-summary-card h6 {
+    margin-bottom: 0;
+}
+
+/* Invoice Selection Grid */
+#invoiceSelectionGrid .card {
+    transition: all 0.2s ease;
+    border: 1px solid #dee2e6;
+}
+
+#invoiceSelectionGrid .card:hover {
+    border-color: #3b82f6;
+    transform: translateY(-1px);
+}
+
+#invoiceSelectionGrid .card.border-primary {
+    border-color: #3b82f6 !important;
+    background-color: rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Modal Enhancements */
+.modal-fullscreen .modal-body {
+    padding: 2rem;
+}
+
+/* Validation Results */
+#validationResults .alert {
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Extracted Data Section */
+#extractedDataSection .form-control[readonly] {
+    background-color: #f8f9fa;
+    border-color: #e9ecef;
+}
+
+/* Delete Confirmation Modal */
+#deleteConfirmModal .modal-content {
+    border: none;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+
+#deleteConfirmModal .alert-warning {
+    border-left: 4px solid #f59e0b;
+}
+
+/* Edit Invoice Modal */
+#editInvoiceModal .form-control[readonly],
+#editInvoiceModal .form-select[disabled] {
+    background-color: #f8f9fa;
+    opacity: 0.8;
+}
+
+#editInvoiceModal small.text-muted {
+    font-style: italic;
+}
+
 /* Financial Quote Modal */
 .quote-section {
     background: #f8f9fa;
