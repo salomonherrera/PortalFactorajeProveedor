@@ -1,3 +1,17 @@
+// Dummy data for facturas with complete information
+const facturas = [
+    {id: 1, folio: 'F001', cliente: 'Nestlé México', monto: 125000, fechaEmision: '2024-01-15', fechaVencimiento: '2024-02-15', estatus: 'Emitida', tipoOperacion: 'Proveedor', recurso: 'Con Recurso', cedente: 'Servicios Demo S.A.', pagador: 'Nestlé México'},
+    {id: 2, folio: 'F002', cliente: 'Coca Cola', monto: 89000, fechaEmision: '2024-01-16', fechaVencimiento: '2024-02-16', estatus: 'Pagada', tipoOperacion: 'Cliente', recurso: 'Sin Recurso', cedente: 'Coca Cola', pagador: 'Servicios Demo S.A.'},
+    {id: 3, folio: 'F003', cliente: 'Walmart', monto: 245000, fechaEmision: '2024-01-17', fechaVencimiento: '2024-02-17', estatus: 'Emitida', tipoOperacion: 'Proveedor', recurso: 'Con Recurso', cedente: 'Servicios Demo S.A.', pagador: 'Walmart'},
+    {id: 4, folio: 'F004', cliente: 'Soriana', monto: 67000, fechaEmision: '2024-01-18', fechaVencimiento: '2024-02-18', estatus: 'Vencida', tipoOperacion: 'Cliente', recurso: 'Sin Recurso', cedente: 'Soriana', pagador: 'Servicios Demo S.A.'},
+    {id: 5, folio: 'F005', cliente: 'Liverpool', monto: 156000, fechaEmision: '2024-01-19', fechaVencimiento: '2024-02-19', estatus: 'Emitida', tipoOperacion: 'Proveedor', recurso: 'Con Recurso', cedente: 'Servicios Demo S.A.', pagador: 'Liverpool'},
+    {id: 6, folio: 'F006', cliente: 'Palacio de Hierro', monto: 78000, fechaEmision: '2024-01-20', fechaVencimiento: '2024-02-20', estatus: 'Pagada', tipoOperacion: 'Cliente', recurso: 'Sin Recurso', cedente: 'Palacio de Hierro', pagador: 'Servicios Demo S.A.'},
+    {id: 7, folio: 'F007', cliente: 'Chedraui', monto: 123000, fechaEmision: '2024-01-21', fechaVencimiento: '2024-02-21', estatus: 'Emitida', tipoOperacion: 'Proveedor', recurso: 'Con Recurso', cedente: 'Servicios Demo S.A.', pagador: 'Chedraui'},
+    {id: 8, folio: 'F008', cliente: 'Oxxo', monto: 45000, fechaEmision: '2024-01-22', fechaVencimiento: '2024-02-22', estatus: 'Emitida', tipoOperacion: 'Cliente', recurso: 'Sin Recurso', cedente: 'Oxxo', pagador: 'Servicios Demo S.A.'},
+    {id: 9, folio: 'F009', cliente: 'Seven Eleven', monto: 234000, fechaEmision: '2024-01-23', fechaVencimiento: '2024-02-23', estatus: 'Pagada', tipoOperacion: 'Proveedor', recurso: 'Con Recurso', cedente: 'Servicios Demo S.A.', pagador: 'Seven Eleven'},
+    {id: 10, folio: 'F010', cliente: 'Farmacias Guadalajara', monto: 89000, fechaEmision: '2024-01-24', fechaVencimiento: '2024-02-24', estatus: 'Emitida', tipoOperacion: 'Cliente', recurso: 'Sin Recurso', cedente: 'Farmacias Guadalajara', pagador: 'Servicios Demo S.A.'}
+];
+
 // Variable para controlar el orden de las fechas
 let sortOrder = 'desc'; // 'desc' para más nueva a más antigua, 'asc' para más antigua a más nueva
 
