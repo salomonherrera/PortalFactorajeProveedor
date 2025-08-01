@@ -1,5 +1,5 @@
 // Dummy data for facturas with complete information
-const facturas = [
+const allFacturas = [
     {id: 1, folio: 'F001', cliente: 'Nestlé México', monto: 125000, fechaEmision: '2024-01-15', fechaVencimiento: '2024-02-15', estatus: 'Emitida', tipoOperacion: 'Proveedor', recurso: 'Con Recurso', cedente: 'Servicios Demo S.A.', pagador: 'Nestlé México'},
     {id: 2, folio: 'F002', cliente: 'Coca Cola', monto: 89000, fechaEmision: '2024-01-16', fechaVencimiento: '2024-02-16', estatus: 'Pagada', tipoOperacion: 'Cliente', recurso: 'Sin Recurso', cedente: 'Coca Cola', pagador: 'Servicios Demo S.A.'},
     {id: 3, folio: 'F003', cliente: 'Walmart', monto: 245000, fechaEmision: '2024-01-17', fechaVencimiento: '2024-02-17', estatus: 'Emitida', tipoOperacion: 'Proveedor', recurso: 'Con Recurso', cedente: 'Servicios Demo S.A.', pagador: 'Walmart'},
@@ -9,8 +9,28 @@ const facturas = [
     {id: 7, folio: 'F007', cliente: 'Chedraui', monto: 123000, fechaEmision: '2024-01-21', fechaVencimiento: '2024-02-21', estatus: 'Emitida', tipoOperacion: 'Proveedor', recurso: 'Con Recurso', cedente: 'Servicios Demo S.A.', pagador: 'Chedraui'},
     {id: 8, folio: 'F008', cliente: 'Oxxo', monto: 45000, fechaEmision: '2024-01-22', fechaVencimiento: '2024-02-22', estatus: 'Emitida', tipoOperacion: 'Cliente', recurso: 'Sin Recurso', cedente: 'Oxxo', pagador: 'Servicios Demo S.A.'},
     {id: 9, folio: 'F009', cliente: 'Seven Eleven', monto: 234000, fechaEmision: '2024-01-23', fechaVencimiento: '2024-02-23', estatus: 'Pagada', tipoOperacion: 'Proveedor', recurso: 'Con Recurso', cedente: 'Servicios Demo S.A.', pagador: 'Seven Eleven'},
-    {id: 10, folio: 'F010', cliente: 'Farmacias Guadalajara', monto: 89000, fechaEmision: '2024-01-24', fechaVencimiento: '2024-02-24', estatus: 'Emitida', tipoOperacion: 'Cliente', recurso: 'Sin Recurso', cedente: 'Farmacias Guadalajara', pagador: 'Servicios Demo S.A.'}
+    {id: 10, folio: 'F010', cliente: 'Farmacias Guadalajara', monto: 89000, fechaEmision: '2024-01-24', fechaVencimiento: '2024-02-24', estatus: 'Emitida', tipoOperacion: 'Cliente', recurso: 'Sin Recurso', cedente: 'Farmacias Guadalajara', pagador: 'Servicios Demo S.A.'},
+    {id: 11, folio: 'F011', cliente: 'Farmacias del Ahorro', monto: 167000, fechaEmision: '2024-01-25', fechaVencimiento: '2024-02-25', estatus: 'Emitida', tipoOperacion: 'Proveedor', recurso: 'Con Recurso', cedente: 'Servicios Demo S.A.', pagador: 'Farmacias del Ahorro'},
+    {id: 12, folio: 'F012', cliente: 'Home Depot', monto: 298000, fechaEmision: '2024-01-26', fechaVencimiento: '2024-02-26', estatus: 'Emitida', tipoOperacion: 'Cliente', recurso: 'Sin Recurso', cedente: 'Home Depot', pagador: 'Servicios Demo S.A.'},
+    {id: 13, folio: 'F013', cliente: 'Costco', monto: 445000, fechaEmision: '2024-01-27', fechaVencimiento: '2024-02-27', estatus: 'Pagada', tipoOperacion: 'Proveedor', recurso: 'Con Recurso', cedente: 'Servicios Demo S.A.', pagador: 'Costco'},
+    {id: 14, folio: 'F014', cliente: 'Sams Club', monto: 356000, fechaEmision: '2024-01-28', fechaVencimiento: '2024-02-28', estatus: 'Emitida', tipoOperacion: 'Cliente', recurso: 'Sin Recurso', cedente: 'Sams Club', pagador: 'Servicios Demo S.A.'},
+    {id: 15, folio: 'F015', cliente: 'Mercado Libre', monto: 189000, fechaEmision: '2024-01-29', fechaVencimiento: '2024-02-29', estatus: 'Emitida', tipoOperacion: 'Proveedor', recurso: 'Con Recurso', cedente: 'Servicios Demo S.A.', pagador: 'Mercado Libre'},
+    {id: 16, folio: 'F016', cliente: 'Amazon México', monto: 278000, fechaEmision: '2024-01-30', fechaVencimiento: '2024-03-01', estatus: 'Vencida', tipoOperacion: 'Cliente', recurso: 'Sin Recurso', cedente: 'Amazon México', pagador: 'Servicios Demo S.A.'},
+    {id: 17, folio: 'F017', cliente: 'Grupo Bimbo', monto: 134000, fechaEmision: '2024-01-31', fechaVencimiento: '2024-03-02', estatus: 'Emitida', tipoOperacion: 'Proveedor', recurso: 'Con Recurso', cedente: 'Servicios Demo S.A.', pagador: 'Grupo Bimbo'},
+    {id: 18, folio: 'F018', cliente: 'Femsa', monto: 567000, fechaEmision: '2024-02-01', fechaVencimiento: '2024-03-03', estatus: 'Emitida', tipoOperacion: 'Cliente', recurso: 'Sin Recurso', cedente: 'Femsa', pagador: 'Servicios Demo S.A.'},
+    {id: 19, folio: 'F019', cliente: 'Alsea', monto: 223000, fechaEmision: '2024-02-02', fechaVencimiento: '2024-03-04', estatus: 'Pagada', tipoOperacion: 'Proveedor', recurso: 'Con Recurso', cedente: 'Servicios Demo S.A.', pagador: 'Alsea'},
+    {id: 20, folio: 'F020', cliente: 'Cinépolis', monto: 98000, fechaEmision: '2024-02-03', fechaVencimiento: '2024-03-05', estatus: 'Emitida', tipoOperacion: 'Cliente', recurso: 'Sin Recurso', cedente: 'Cinépolis', pagador: 'Servicios Demo S.A.'},
+    {id: 21, folio: 'F021', cliente: 'Telcel', monto: 445000, fechaEmision: '2024-02-04', fechaVencimiento: '2024-03-06', estatus: 'Emitida', tipoOperacion: 'Proveedor', recurso: 'Con Recurso', cedente: 'Servicios Demo S.A.', pagador: 'Telcel'},
+    {id: 22, folio: 'F022', cliente: 'Movistar', monto: 312000, fechaEmision: '2024-02-05', fechaVencimiento: '2024-03-07', estatus: 'Emitida', tipoOperacion: 'Cliente', recurso: 'Sin Recurso', cedente: 'Movistar', pagador: 'Servicios Demo S.A.'}
 ];
+
+// Initialize data if not exists
+if (!window.facturas) {
+    window.facturas = [...allFacturas];
+}
+if (!window.facturasEnFactoraje) {
+    window.facturasEnFactoraje = [];
+}
 
 // Variable para controlar el orden de las fechas
 let sortOrder = 'desc'; // 'desc' para más nueva a más antigua, 'asc' para más antigua a más nueva
@@ -303,13 +323,17 @@ function exportToExcel() {
 
 function loadFacturas() {
     // Ordenar facturas por fecha
-    const facturasOrdenadas = [...facturas].sort((a, b) => {
+    const facturasOrdenadas = [...window.facturas].sort((a, b) => {
         const fechaA = new Date(a.fechaEmision).getTime();
         const fechaB = new Date(b.fechaEmision).getTime();
         return sortOrder === 'desc' ? fechaB - fechaA : fechaA - fechaB;
     });
     
     const tbody = document.getElementById('facturasTableBody');
+    if (!tbody) return;
+    
+    if (!tbody) return;
+    
     tbody.innerHTML = '';
     
     facturasOrdenadas.forEach(factura => {
@@ -337,6 +361,13 @@ function loadFacturas() {
         `;
         tbody.appendChild(row);
     });
+    
+    // Actualizar estadísticas
+    updateFacturasStats();
+}
+
+function updateFacturasStats() {
+    const totalFacturas = allFacturas.length;
 }
 
 // Initialize tooltips and popovers
@@ -649,17 +680,75 @@ function viewRequestDetails(requestId) {
 
 // Edit and delete functions
 function editFactura(id) {
-    showAlert(`Editando factura ID: ${id}`, 'info');
+    const factura = window.facturas.find(f => f.id === id);
+    if (!factura) return;
+    
+    // Populate edit form
+    document.getElementById('editFolio').value = factura.folio;
+    document.getElementById('editCliente').value = factura.cliente;
+    document.getElementById('editMonto').value = factura.monto;
+    document.getElementById('editFechaEmision').value = factura.fechaEmision;
+    document.getElementById('editFechaVencimiento').value = factura.fechaVencimiento;
+    document.getElementById('editEstatus').value = factura.estatus;
+    document.getElementById('editTipoOperacion').value = factura.tipoOperacion;
+    document.getElementById('editRecurso').value = factura.recurso;
+    document.getElementById('editCedente').value = factura.cedente;
+    document.getElementById('editPagador').value = factura.pagador;
+    
+    const modal = new bootstrap.Modal(document.getElementById('editInvoiceModal'));
+    modal.show();
+    
+    // Store ID for saving
+    window.facturaToEdit = id;
+}
+
+function saveEditedFactura() {
+    if (!window.facturaToEdit) return;
+    
+    const index = window.facturas.findIndex(f => f.id === window.facturaToEdit);
+    if (index > -1) {
+        // Update only editable fields
+        window.facturas[index].cliente = document.getElementById('editCliente').value;
+        window.facturas[index].monto = parseFloat(document.getElementById('editMonto').value);
+        window.facturas[index].fechaVencimiento = document.getElementById('editFechaVencimiento').value;
+        window.facturas[index].estatus = document.getElementById('editEstatus').value;
+        
+        loadFacturas();
+        showAlert('Factura actualizada exitosamente', 'success');
+        
+        const modal = bootstrap.Modal.getInstance(document.getElementById('editInvoiceModal'));
+        modal.hide();
+        window.facturaToEdit = null;
+    }
 }
 
 function deleteFactura(id) {
-    if (confirm('¿Estás seguro de que deseas eliminar esta factura?')) {
-        // Remove from array
-        const index = facturas.findIndex(f => f.id === id);
+    const factura = window.facturas.find(f => f.id === id);
+    if (!factura) return;
+    
+    // Show delete confirmation modal
+    document.getElementById('deleteFacturaFolio').textContent = factura.folio;
+    document.getElementById('deleteFacturaCliente').textContent = factura.cliente;
+    document.getElementById('deleteFacturaMonto').textContent = `$${factura.monto.toLocaleString()}`;
+    
+    const modal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+    modal.show();
+    
+    // Store ID for confirmation
+    window.facturaToDelete = id;
+}
+
+function confirmDeleteFactura() {
+    if (window.facturaToDelete) {
+        const index = window.facturas.findIndex(f => f.id === window.facturaToDelete);
         if (index > -1) {
-            facturas.splice(index, 1);
+            window.facturas.splice(index, 1);
             loadFacturas();
             showAlert('Factura eliminada exitosamente', 'success');
+            
+            const modal = bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal'));
+            modal.hide();
+            window.facturaToDelete = null;
         }
     }
 }

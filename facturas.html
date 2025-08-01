@@ -587,7 +587,8 @@
     <script src="js/main.js"></script>
     <script>
         // Variables globales
-        let facturas = [
+        if (!window.facturas) {
+            window.facturas = [
             {id: 1, folio: 'F001', cliente: 'Nestlé México', monto: 125000, fechaEmision: '2024-01-15', fechaVencimiento: '2024-02-15', estatus: 'Emitida', tipoOperacion: 'Proveedor', recurso: 'Con Recurso', cedente: 'Servicios Demo S.A.', pagador: 'Nestlé México'},
             {id: 2, folio: 'F002', cliente: 'Coca Cola', monto: 89000, fechaEmision: '2024-01-16', fechaVencimiento: '2024-02-16', estatus: 'Pagada', tipoOperacion: 'Cliente', recurso: 'Sin Recurso', cedente: 'Coca Cola', pagador: 'Servicios Demo S.A.'},
             {id: 3, folio: 'F003', cliente: 'Walmart', monto: 245000, fechaEmision: '2024-01-17', fechaVencimiento: '2024-02-17', estatus: 'Emitida', tipoOperacion: 'Proveedor', recurso: 'Con Recurso', cedente: 'Servicios Demo S.A.', pagador: 'Walmart'},
@@ -596,7 +597,8 @@
             {id: 6, folio: 'F006', cliente: 'Palacio de Hierro', monto: 78000, fechaEmision: '2024-01-20', fechaVencimiento: '2024-02-20', estatus: 'Pagada', tipoOperacion: 'Cliente', recurso: 'Sin Recurso', cedente: 'Palacio de Hierro', pagador: 'Servicios Demo S.A.'},
             {id: 7, folio: 'F007', cliente: 'Chedraui', monto: 123000, fechaEmision: '2024-01-21', fechaVencimiento: '2024-02-21', estatus: 'Emitida', tipoOperacion: 'Proveedor', recurso: 'Con Recurso', cedente: 'Servicios Demo S.A.', pagador: 'Chedraui'},
             {id: 8, folio: 'F008', cliente: 'Oxxo', monto: 45000, fechaEmision: '2024-01-22', fechaVencimiento: '2024-02-22', estatus: 'Emitida', tipoOperacion: 'Cliente', recurso: 'Sin Recurso', cedente: 'Oxxo', pagador: 'Servicios Demo S.A.'}
-        ];
+            ];
+        }
 
         let sortOrder = 'desc';
         let currentEditId = null;
